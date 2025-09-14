@@ -203,79 +203,6 @@
 			line-height: 1.5;
 		}
 
-		.loading {
-			display: none;
-			text-align: center;
-			padding: 20px;
-		}
-
-		.spinner {
-			border: 3px solid var(--apple-gray-200);
-			border-top: 3px solid var(--main-accent);
-			border-radius: 50%;
-			width: 30px;
-			height: 30px;
-			animation: spin 1s linear infinite;
-			margin: 0 auto 16px;
-		}
-
-		@keyframes spin {
-			0% {
-				transform: rotate(0deg);
-			}
-
-			100% {
-				transform: rotate(360deg);
-			}
-		}
-
-		.back-link {
-			text-align: center;
-			margin-top: 24px;
-		}
-
-		.back-link a {
-			color: var(--main-accent);
-			text-decoration: none;
-			font-size: 14px;
-			font-weight: 500;
-		}
-
-		.back-link a:hover {
-			text-decoration: underline;
-		}
-
-		.alternative-section {
-			text-align: center;
-			margin: 24px 0;
-			color: var(--main-subtext);
-			font-size: 14px;
-		}
-
-		.alternative-button {
-			width: 100%;
-			background: var(--apple-gray-100);
-			color: var(--main-text);
-			border: 2px solid var(--apple-gray-200);
-			border-radius: 25px;
-			padding: 14px 24px;
-			font-size: 14px;
-			font-weight: 500;
-			cursor: pointer;
-			transition: all 0.3s ease;
-			text-decoration: none;
-			display: inline-block;
-			text-align: center;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-		}
-
-		.alternative-button:hover {
-			background: var(--apple-gray-200);
-			border-color: var(--apple-gray-300);
-			transform: translateY(-2px);
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-		}
-
 		.buttons-row {
 			display: flex;
 			gap: 12px;
@@ -390,8 +317,7 @@
 		<form id="loginForm">
 			<div class="form-group">
 				<label for="email" class="form-label">📧 Корпоративная почта</label>
-				<input type="email" id="email" name="email" class="form-input" placeholder="i.p.@rostov.etagi.com" required
-					style="color: var(--main-text);">
+				<input type="email" id="email" name="email" class="form-input" placeholder="i.p.@rostov.etagi.com" required>
 				<div id="emailError" class="error-message"></div>
 				<div id="emailSuccess" class="success-message"></div>
 			</div>
@@ -408,6 +334,7 @@
 				🚀 Войти в систему
 			</button>
 		</form>
+
 		<div class="buttons-row">
 			<button id="generatePasswordButton" class="half-button">
 				🔄 Сгенерировать пароль
@@ -465,29 +392,7 @@
 		const API_KEY = 'AIzaSyDlejl66tn6Ik2NPLcV3fyoarRbdOliaww';
 		const SHEET_NAME = 'учетные записи';
 
-		// Проверим подключение при загрузке страницы
-		async function testConnection() {
-			try {
-				const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
-
-				const response = await fetch(url);
-
-				if (response.ok) {
-					const data = await response.json();
-					return true;
-				} else {
-					const errorText = await response.text();
-					return false;
-				}
-			} catch (error) {
-				return false;
-			}
-		}
-
 		document.addEventListener('DOMContentLoaded', function () {
-			// Тестируем подключение при загрузке
-			testConnection();
-
 			// Элементы формы
 			const loginForm = document.getElementById('loginForm');
 			const emailInput = document.getElementById('email');
@@ -539,16 +444,13 @@
 			async function findUserInGoogleSheets(email, password) {
 				try {
 					const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
-
 					const response = await fetch(url);
 
 					if (!response.ok) {
-						const errorText = await response.text();
-						throw new Error(`Ошибка подключения к Google Sheets: ${response.status} ${response.statusText}`);
+						throw new Error(`Ошибка подключения к Google Sheets: ${response.status}`);
 					}
 
 					const data = await response.json();
-
 					const rows = data.values || [];
 
 					// Пропускаем заголовок (первая строка)
@@ -572,7 +474,9 @@
 				} catch (error) {
 					throw error;
 				}
-			}			// Поиск пользователя (сначала в localStorage, потом в Google Sheets)
+			}
+
+			// Поиск пользователя (сначала в localStorage, потом в Google Sheets)
 			async function findUser(email, password) {
 				try {
 					// Сначала ищем в localStorage (где сохраняются новые регистрации)
@@ -611,7 +515,6 @@
 			// Валидация при вводе email
 			emailInput.addEventListener('input', function () {
 				const validation = validateEmail(this.value);
-
 				emailError.style.display = 'none';
 				emailSuccess.style.display = 'none';
 				this.classList.remove('error', 'success');
@@ -632,7 +535,6 @@
 			// Валидация при вводе пароля
 			passwordInput.addEventListener('input', function () {
 				const validation = validatePassword(this.value);
-
 				passwordError.style.display = 'none';
 				passwordSuccess.style.display = 'none';
 				this.classList.remove('error', 'success');
@@ -691,12 +593,11 @@
 
 					if (user) {
 						// Успешный вход
-						// Сохраняем информацию о пользователе
 						localStorage.setItem('userLoggedIn', 'true');
 						localStorage.setItem('userEmail', email);
 						localStorage.setItem('userName', user.employeeId || user.email.split('@')[0]);
 						localStorage.setItem('userId', user.employeeId || user.id);
-						localStorage.setItem('justLoggedIn', 'true'); // Флаг для показа приветственного окна
+						localStorage.setItem('justLoggedIn', 'true');
 
 						// Показываем успех
 						loginButton.textContent = '✅ Вход выполнен!';
@@ -713,33 +614,12 @@
 						passwordError.textContent = 'Неверный email или пароль';
 						passwordError.style.display = 'block';
 
-						// Проверяем, зарегистрирован ли пользователь в Google Sheets
-						try {
-							const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
-							const response = await fetch(url);
-							const data = await response.json();
-							const rows = data.values || [];
-
-							const userExists = rows.some(row => {
-								const rowEmail = row[1] ? row[1].toString().toLowerCase().trim() : '';
-								return rowEmail === email;
-							});
-
-							if (!userExists) {
-								emailInput.classList.add('error');
-								emailError.textContent = 'Пользователь не найден. Сначала зарегистрируйтесь!';
-								emailError.style.display = 'block';
-							}
-						} catch (error) {
-						}
-
 						// Разблокируем кнопку
 						loginButton.disabled = false;
 						loginButton.textContent = '🚀 Войти в систему';
 						loginButton.style.background = 'var(--main-accent)';
 					}
 				} catch (error) {
-
 					// Показываем ошибку
 					passwordInput.classList.add('error');
 					passwordError.textContent = 'Ошибка подключения. Попробуйте позже.';
@@ -848,11 +728,7 @@
 					passwordError.style.display = 'none';
 					passwordSuccess.style.display = 'none';
 
-					// Уведомляем пользователя
-					// alert убран - пользователь видит модальное окно с паролем
-
 				} catch (error) {
-
 					// В случае ошибки API, пробуем работать с localStorage
 					const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
 					const userIndex = registeredUsers.findIndex(u => u.email === email);
@@ -872,15 +748,15 @@
 						emailInput.classList.remove('error');
 						emailInput.classList.add('success');
 						emailError.style.display = 'none';
-
-						// alert убран - пользователь видит модальное окно с паролем
 					}
 				}
 
 				// Разблокируем кнопку
 				this.disabled = false;
 				this.textContent = '🔄 Сгенерировать пароль';
-			});			// Функции для работы с модальным окном пароля
+			});
+
+			// Функции для работы с модальным окном пароля
 			function showPasswordModal(password) {
 				document.getElementById('generatedPassword').textContent = password;
 				document.getElementById('passwordModal').style.display = 'block';
