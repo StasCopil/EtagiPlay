@@ -569,6 +569,8 @@
 					emailInput.classList.add('error');
 					emailError.textContent = emailValidation.message;
 					emailError.style.display = 'block';
+        emailSuccess.style.display = 'none';
+        console.warn('Ошибка email:', emailValidation.message, 'Введено:', email);
 					hasErrors = true;
 				}
 
@@ -576,10 +578,13 @@
 					passwordInput.classList.add('error');
 					passwordError.textContent = passwordValidation.message;
 					passwordError.style.display = 'block';
+        passwordSuccess.style.display = 'none';
+        console.warn('Ошибка пароля:', passwordValidation.message, 'Введено:', password);
 					hasErrors = true;
 				}
 
 				if (hasErrors) {
+        console.warn('Валидация не пройдена, вход не выполнен');
 					return;
 				}
 
@@ -590,6 +595,7 @@
 				try {
 					// Поиск пользователя
 					const user = await findUser(email, password);
+        console.log('Результат поиска пользователя:', user);
 
 					if (user) {
 						// Успешный вход
@@ -602,6 +608,10 @@
 						// Показываем успех
 						loginButton.textContent = '✅ Вход выполнен!';
 						loginButton.style.background = 'var(--main-success)';
+            passwordError.style.display = 'none';
+            passwordSuccess.textContent = 'Пароль принят';
+            passwordSuccess.style.display = 'block';
+            console.log('Вход выполнен успешно для:', email);
 
 						// Перенаправляем через 1 секунду
 						setTimeout(() => {
@@ -613,6 +623,8 @@
 						passwordInput.classList.add('error');
 						passwordError.textContent = 'Неверный email или пароль';
 						passwordError.style.display = 'block';
+            passwordSuccess.style.display = 'none';
+            console.warn('Пользователь не найден. Email:', email, 'Пароль:', password);
 
 						// Разблокируем кнопку
 						loginButton.disabled = false;
@@ -624,6 +636,8 @@
 					passwordInput.classList.add('error');
 					passwordError.textContent = 'Ошибка подключения. Попробуйте позже.';
 					passwordError.style.display = 'block';
+        passwordSuccess.style.display = 'none';
+        console.error('Ошибка при попытке входа:', error);
 
 					// Разблокируем кнопку
 					loginButton.disabled = false;
