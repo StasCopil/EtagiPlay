@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Вход в систему - Этажи₽lay</title>
+	<style>
+		:root {
+			--main-bg: #f7faff;
+			--main-text: #1e293b;
+			--main-subtext: #64748b;
+			--main-accent: #007aff;
+			--main-accent-dark: #0051d2;
+			--main-card: #ffffff;
+			--apple-gray-50: #f9fafb;
+			--apple-gray-100: #f3f4f6;
+			--apple-gray-200: #e5e7eb;
+			--apple-gray-300: #d1d5db;
+			--apple-gray-400: #9ca3af;
+			--apple-gray-500: #6b7280;
+			--main-success: #10b981;
+			--main-error: #ef4444;
+		}
+
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+			background: linear-gradient(135deg, var(--main-bg) 0%, #ffffff 100%);
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+		}
+
+		.login-container {
+			background: var(--main-card);
+			border-radius: 30px;
+			padding: 40px;
+			width: 100%;
+			max-width: 480px;
+			box-shadow: 0 25px 80px rgba(0, 0, 0, 0.08);
+			border: 2px solid var(--apple-gray-100);
+		}
+
+		.logo {
+			text-align: center;
+			margin-bottom: 32px;
+		}
+
+		.logo img {
+			height: 80px;
+			transition: transform 0.3s ease;
+		}
+
+		.logo img:hover {
+			transform: scale(1.05);
+		}
+
+		.login-header {
+			text-align: center;
+			margin-bottom: 32px;
+		}
+
+		.login-title {
+			color: var(--main-text);
+			font-size: 28px;
+			font-weight: 700;
+			margin-bottom: 8px;
+		}
+
+		.login-subtitle {
+			color: var(--main-subtext);
+			font-size: 16px;
+			line-height: 1.5;
+		}
+
+		.form-group {
+			margin-bottom: 24px;
+		}
+
+		.form-label {
+			display: block;
+			color: var(--main-text);
+			font-size: 14px;
+			font-weight: 600;
+			margin-bottom: 8px;
+		}
+
+		.form-input {
+			width: 100%;
+			padding: 16px 20px;
+			border: 2px solid var(--apple-gray-200);
+			border-radius: 20px;
+			font-size: 16px;
+			color: var(--main-text);
+			background: var(--apple-gray-50);
+			transition: all 0.3s ease;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+		}
+
+		.form-input:focus {
+			outline: none;
+			border-color: var(--main-accent);
+			background: white;
+			box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+		}
+
+		.form-input::placeholder {
+			color: rgba(100, 116, 139, 0.3);
+			opacity: 1;
+		}
+
+		.form-input::-webkit-input-placeholder {
+			color: rgba(100, 116, 139, 0.3);
+		}
+
+		.form-input::-moz-placeholder {
+			color: rgba(100, 116, 139, 0.3);
+			opacity: 1;
+		}
+
+		.form-input:-ms-input-placeholder {
+			color: rgba(100, 116, 139, 0.3);
+		}
+
+		.form-input.error {
+			border-color: var(--main-error);
+			background: #fef2f2;
+		}
+
+		.form-input.success {
+			border-color: var(--main-success);
+			background: #f0fdf4;
+		}
+
+		.error-message {
+			color: var(--main-error);
+			font-size: 14px;
+			margin-top: 8px;
+			display: none;
+		}
+
+		.success-message {
+			color: var(--main-success);
+			font-size: 14px;
+			margin-top: 8px;
+			display: none;
+		}
+
+		.login-button {
+			width: 100%;
+			background: var(--main-accent);
+			color: white;
+			border: none;
+			border-radius: 25px;
+			padding: 16px 24px;
+			font-size: 16px;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			margin-bottom: 20px;
+			box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+		}
+
+		.login-button:hover {
+			background: var(--main-accent-dark);
+			transform: translateY(-2px);
+			box-shadow: 0 8px 20px rgba(0, 122, 255, 0.4);
+		}
+
+		.login-button:disabled {
+			background: var(--apple-gray-300);
+			cursor: not-allowed;
+			transform: none;
+			box-shadow: none;
+		}
+
+		.info-box {
+			background: var(--apple-gray-50);
+			border: 1px solid var(--apple-gray-200);
+			border-radius: 20px;
+			padding: 16px;
+			margin-bottom: 24px;
+		}
+
+		.info-title {
+			color: var(--main-text);
+			font-size: 14px;
+			font-weight: 600;
+			margin-bottom: 8px;
+		}
+
+		.info-text {
+			color: var(--main-subtext);
+			font-size: 13px;
+			line-height: 1.5;
+		}
+
+		.loading {
+			display: none;
+			text-align: center;
+			padding: 20px;
+		}
+
+		.spinner {
+			border: 3px solid var(--apple-gray-200);
+			border-top: 3px solid var(--main-accent);
+			border-radius: 50%;
+			width: 30px;
+			height: 30px;
+			animation: spin 1s linear infinite;
+			margin: 0 auto 16px;
+		}
+
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+
+		.back-link {
+			text-align: center;
+			margin-top: 24px;
+		}
+
+		.back-link a {
+			color: var(--main-accent);
+			text-decoration: none;
+			font-size: 14px;
+			font-weight: 500;
+		}
+
+		.back-link a:hover {
+			text-decoration: underline;
+		}
+
+		.alternative-section {
+			text-align: center;
+			margin: 24px 0;
+			color: var(--main-subtext);
+			font-size: 14px;
+		}
+
+		.alternative-button {
+			width: 100%;
+			background: var(--apple-gray-100);
+			color: var(--main-text);
+			border: 2px solid var(--apple-gray-200);
+			border-radius: 25px;
+			padding: 14px 24px;
+			font-size: 14px;
+			font-weight: 500;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			text-decoration: none;
+			display: inline-block;
+			text-align: center;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+		}
+
+		.alternative-button:hover {
+			background: var(--apple-gray-200);
+			border-color: var(--apple-gray-300);
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		}
+
+		.buttons-row {
+			display: flex;
+			gap: 12px;
+			margin-top: 16px;
+		}
+
+		.half-button {
+			flex: 1;
+			background: var(--apple-gray-100);
+			color: var(--main-text);
+			border: 2px solid var(--apple-gray-200);
+			border-radius: 25px;
+			padding: 14px 16px;
+			font-size: 14px;
+			font-weight: 500;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			text-decoration: none;
+			display: inline-block;
+			text-align: center;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+		}
+
+		.half-button:hover {
+			background: var(--apple-gray-200);
+			border-color: var(--apple-gray-300);
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		}
+
+		@media (max-width: 768px) {
+			.login-container {
+				padding: 24px;
+				margin: 16px;
+			}
+
+			.login-title {
+				font-size: 24px;
+			}
+		}
+
+		/* Стили для модального окна пароля */
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1000;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.6);
+			backdrop-filter: blur(8px);
+		}
+
+		.modal-content {
+			background-color: var(--main-card);
+			margin: 10% auto;
+			padding: 0;
+			border-radius: 25px;
+			width: 90%;
+			max-width: 500px;
+			box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+			animation: modalSlideIn 0.4s ease;
+			border: 2px solid var(--main-accent);
+		}
+
+		.modal-header {
+			padding: 25px;
+			border-bottom: 1px solid var(--apple-gray-200);
+		}
+
+		.modal-body {
+			padding: 25px;
+		}
+
+		@keyframes modalSlideIn {
+			from {
+				opacity: 0;
+				transform: translateY(-50px) scale(0.9);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="login-container">
+		<div class="logo">
+			<img src="https://i.postimg.cc/zGjfVHdx/image.png" alt="Этажи₽lay">
+		</div>
+
+		<div class="login-header">
+			<h1 class="login-title">Вход в систему</h1>
+			<p class="login-subtitle">
+				Используйте корпоративную почту для входа и получите безопасный пароль с помощью генератора паролей ниже.
+			</p>
+		</div>
+
+		<div class="info-box">
+			<div class="info-title">Как войти:</div>
+			<div class="info-text">
+				1. Введите корпоративную почту @rostov.etagi.com<br>
+				2. Получите безопасный пароль через встроенный генератор ниже<br>
+				3. Нет аккаунта? Зарегистрируйтесь с помощью кнопки ниже.
+			</div>
+		</div>
+
+		<form id="loginForm">
+			<div class="form-group">
+				<label for="email" class="form-label">📧 Корпоративная почта</label>
+				<input type="email" id="email" name="email" class="form-input" placeholder="i.p.@rostov.etagi.com" required
+					style="color: var(--main-text);">
+				<div id="emailError" class="error-message"></div>
+				<div id="emailSuccess" class="success-message"></div>
+			</div>
+
+			<div class="form-group">
+				<label for="password" class="form-label">🔐 Пароль</label>
+				<input type="password" id="password" name="password" class="form-input"
+					placeholder="Пароль из генератора паролей ниже" required>
+				<div id="passwordError" class="error-message"></div>
+				<div id="passwordSuccess" class="success-message"></div>
+			</div>
+
+			<button type="submit" id="loginButton" class="login-button">
+				🚀 Войти в систему
+			</button>
+		</form>
+		<div class="buttons-row">
+			<button id="generatePasswordButton" class="half-button">
+				🔄 Сгенерировать пароль
+			</button>
+			<a href="registration.html" class="half-button">
+				📝 Регистрация
+			</a>
+		</div>
+	</div>
+
+	<!-- Модальное окно для показа пароля -->
+	<div id="passwordModal" class="modal" style="display: none;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 style="color: var(--main-accent); margin: 0; font-size: 24px; font-weight: 600; text-align: center;">
+					🔑 Ваш новый пароль готов!
+				</h2>
+			</div>
+			<div class="modal-body">
+				<div
+					style="background: var(--apple-gray-50); border: 2px solid var(--main-accent); border-radius: 15px; padding: 20px; margin: 20px 0; text-align: center;">
+					<p style="color: var(--main-text); font-size: 16px; margin-bottom: 15px; font-weight: 600;">
+						👇 СКОПИРУЙТЕ этот пароль 👇
+					</p>
+					<div id="generatedPassword"
+						style="background: white; border: 2px dashed var(--main-accent); border-radius: 10px; padding: 15px; font-family: monospace; font-size: 18px; font-weight: bold; color: var(--main-accent); letter-spacing: 2px; user-select: all; cursor: pointer;">
+						<!-- Пароль будет вставлен сюда -->
+					</div>
+					<p style="color: var(--main-subtext); font-size: 12px; margin-top: 10px;">
+						💡 Кликните на пароль чтобы скопировать
+					</p>
+				</div>
+
+				<div
+					style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 10px; padding: 15px; margin: 15px 0;">
+					<p style="color: #856404; font-size: 14px; margin: 0; text-align: center;">
+						<strong>📝 ЧТО ДЕЛАТЬ ДАЛЬШЕ:</strong><br>
+						1. Скопируйте пароль (кликните на него)<br>
+						2. Вставьте в поле "Пароль" на этой странице<br>
+						3. Нажмите "Войти в систему"
+					</p>
+				</div>
+
+				<button id="closePasswordModalBtn"
+					style="width: 100%; background: var(--main-accent); color: white; border: none; border-radius: 25px; padding: 16px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px;">
+					✅ Понятно, закрыть
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Google Sheets API конфигурация
+		const SPREADSHEET_ID = '1I59nc5HqphN0IJVoMCEAER29JQiphyDkvzXTRIfFi3s';
+		const API_KEY = 'AIzaSyDlejl66tn6Ik2NPLcV3fyoarRbdOliaww';
+		const SHEET_NAME = 'учетные записи';
+
+		// Проверим подключение при загрузке страницы
+		async function testConnection() {
+			try {
+				const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+
+				const response = await fetch(url);
+
+				if (response.ok) {
+					const data = await response.json();
+					return true;
+				} else {
+					const errorText = await response.text();
+					return false;
+				}
+			} catch (error) {
+				return false;
+			}
+		}
+
+		document.addEventListener('DOMContentLoaded', function () {
+			// Тестируем подключение при загрузке
+			testConnection();
+
+			// Элементы формы
+			const loginForm = document.getElementById('loginForm');
+			const emailInput = document.getElementById('email');
+			const passwordInput = document.getElementById('password');
+			const emailError = document.getElementById('emailError');
+			const emailSuccess = document.getElementById('emailSuccess');
+			const passwordError = document.getElementById('passwordError');
+			const passwordSuccess = document.getElementById('passwordSuccess');
+			const loginButton = document.getElementById('loginButton');
+
+			// Проверка email домена
+			function validateEmail(email) {
+				const emailLower = email.toLowerCase().trim();
+
+				if (!emailLower) {
+					return { valid: false, message: 'Введите email адрес' };
+				}
+
+				if (!emailLower.includes('@')) {
+					return { valid: false, message: 'Неверный формат email' };
+				}
+
+				if (!emailLower.endsWith('@rostov.etagi.com')) {
+					return { valid: false, message: 'Разрешены только адреса @rostov.etagi.com' };
+				}
+
+				const username = emailLower.split('@')[0];
+				if (username.length < 2) {
+					return { valid: false, message: 'Слишком короткое имя пользователя' };
+				}
+
+				return { valid: true, message: 'Корпоративный email подтверждён' };
+			}
+
+			// Проверка пароля
+			function validatePassword(password) {
+				if (!password) {
+					return { valid: false, message: 'Введите пароль' };
+				}
+
+				if (password.length < 4) {
+					return { valid: false, message: 'Пароль слишком короткий' };
+				}
+
+				return { valid: true, message: 'Пароль принят' };
+			}
+
+			// Поиск пользователя в Google Sheets
+			async function findUserInGoogleSheets(email, password) {
+				try {
+					const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+
+					const response = await fetch(url);
+
+					if (!response.ok) {
+						const errorText = await response.text();
+						throw new Error(`Ошибка подключения к Google Sheets: ${response.status} ${response.statusText}`);
+					}
+
+					const data = await response.json();
+
+					const rows = data.values || [];
+
+					// Пропускаем заголовок (первая строка)
+					for (let i = 1; i < rows.length; i++) {
+						const row = rows[i];
+						const employeeId = row[0] ? row[0].toString().trim() : '';
+						const rowEmail = row[1] ? row[1].toString().toLowerCase().trim() : '';
+						const rowPassword = row[2] ? row[2].toString() : '';
+
+						if (rowEmail === email.toLowerCase() && rowPassword === password) {
+							return {
+								email: rowEmail,
+								password: rowPassword,
+								employeeId: employeeId,
+								id: employeeId
+							};
+						}
+					}
+
+					return null;
+				} catch (error) {
+					throw error;
+				}
+			}			// Поиск пользователя (сначала в localStorage, потом в Google Sheets)
+			async function findUser(email, password) {
+				try {
+					// Сначала ищем в localStorage (где сохраняются новые регистрации)
+					const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+
+					const localUser = registeredUsers.find(user => {
+						const emailMatch = user.email === email.toLowerCase();
+						const passwordMatch = user.password === password;
+						return emailMatch && passwordMatch;
+					});
+
+					if (localUser) {
+						return localUser;
+					}
+
+					// Если не найден в localStorage, проверяем Google Sheets
+					const user = await findUserInGoogleSheets(email, password);
+					if (user) {
+						return user;
+					}
+
+					return null;
+				} catch (error) {
+					// В случае ошибки API, проверяем localStorage как fallback
+					try {
+						const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+						return registeredUsers.find(user =>
+							user.email === email.toLowerCase() && user.password === password
+						);
+					} catch (localError) {
+						return null;
+					}
+				}
+			}
+
+			// Валидация при вводе email
+			emailInput.addEventListener('input', function () {
+				const validation = validateEmail(this.value);
+
+				emailError.style.display = 'none';
+				emailSuccess.style.display = 'none';
+				this.classList.remove('error', 'success');
+
+				if (this.value.trim()) {
+					if (validation.valid) {
+						this.classList.add('success');
+						emailSuccess.textContent = validation.message;
+						emailSuccess.style.display = 'block';
+					} else {
+						this.classList.add('error');
+						emailError.textContent = validation.message;
+						emailError.style.display = 'block';
+					}
+				}
+			});
+
+			// Валидация при вводе пароля
+			passwordInput.addEventListener('input', function () {
+				const validation = validatePassword(this.value);
+
+				passwordError.style.display = 'none';
+				passwordSuccess.style.display = 'none';
+				this.classList.remove('error', 'success');
+
+				if (this.value.trim()) {
+					if (validation.valid) {
+						this.classList.add('success');
+						passwordSuccess.textContent = validation.message;
+						passwordSuccess.style.display = 'block';
+					} else {
+						this.classList.add('error');
+						passwordError.textContent = validation.message;
+						passwordError.style.display = 'block';
+					}
+				}
+			});
+
+			// Обработка отправки формы
+			loginForm.addEventListener('submit', async function (e) {
+				e.preventDefault();
+
+				const email = emailInput.value.trim().toLowerCase();
+				const password = passwordInput.value;
+
+				// Валидация
+				const emailValidation = validateEmail(email);
+				const passwordValidation = validatePassword(password);
+
+				let hasErrors = false;
+
+				if (!emailValidation.valid) {
+					emailInput.classList.add('error');
+					emailError.textContent = emailValidation.message;
+					emailError.style.display = 'block';
+					hasErrors = true;
+				}
+
+				if (!passwordValidation.valid) {
+					passwordInput.classList.add('error');
+					passwordError.textContent = passwordValidation.message;
+					passwordError.style.display = 'block';
+					hasErrors = true;
+				}
+
+				if (hasErrors) {
+					return;
+				}
+
+				// Блокируем кнопку и показываем загрузку
+				loginButton.disabled = true;
+				loginButton.textContent = '🔄 Проверяем данные...';
+
+				try {
+					// Поиск пользователя
+					const user = await findUser(email, password);
+
+					if (user) {
+						// Успешный вход
+						// Сохраняем информацию о пользователе
+						localStorage.setItem('userLoggedIn', 'true');
+						localStorage.setItem('userEmail', email);
+						localStorage.setItem('userName', user.employeeId || user.email.split('@')[0]);
+						localStorage.setItem('userId', user.employeeId || user.id);
+						localStorage.setItem('justLoggedIn', 'true'); // Флаг для показа приветственного окна
+
+						// Показываем успех
+						loginButton.textContent = '✅ Вход выполнен!';
+						loginButton.style.background = 'var(--main-success)';
+
+						// Перенаправляем через 1 секунду
+						setTimeout(() => {
+							window.location.href = 'index.html';
+						}, 1000);
+
+					} else {
+						// Неверные данные
+						passwordInput.classList.add('error');
+						passwordError.textContent = 'Неверный email или пароль';
+						passwordError.style.display = 'block';
+
+						// Проверяем, зарегистрирован ли пользователь в Google Sheets
+						try {
+							const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+							const response = await fetch(url);
+							const data = await response.json();
+							const rows = data.values || [];
+
+							const userExists = rows.some(row => {
+								const rowEmail = row[1] ? row[1].toString().toLowerCase().trim() : '';
+								return rowEmail === email;
+							});
+
+							if (!userExists) {
+								emailInput.classList.add('error');
+								emailError.textContent = 'Пользователь не найден. Сначала зарегистрируйтесь!';
+								emailError.style.display = 'block';
+							}
+						} catch (error) {
+						}
+
+						// Разблокируем кнопку
+						loginButton.disabled = false;
+						loginButton.textContent = '🚀 Войти в систему';
+						loginButton.style.background = 'var(--main-accent)';
+					}
+				} catch (error) {
+
+					// Показываем ошибку
+					passwordInput.classList.add('error');
+					passwordError.textContent = 'Ошибка подключения. Попробуйте позже.';
+					passwordError.style.display = 'block';
+
+					// Разблокируем кнопку
+					loginButton.disabled = false;
+					loginButton.textContent = '🚀 Войти в систему';
+					loginButton.style.background = 'var(--main-accent)';
+				}
+			});
+
+			// Функция генерации случайного пароля
+			function generateRandomPassword() {
+				const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*';
+				let password = '';
+				for (let i = 0; i < 12; i++) {
+					password += chars.charAt(Math.floor(Math.random() * chars.length));
+				}
+				return password;
+			}
+
+			// Обработчик для кнопки генерации пароля
+			document.getElementById('generatePasswordButton').addEventListener('click', async function () {
+				const email = emailInput.value.trim().toLowerCase();
+
+				if (!email) {
+					emailInput.classList.add('error');
+					emailError.textContent = 'Введите email для генерации пароля';
+					emailError.style.display = 'block';
+					return;
+				}
+
+				const emailValidation = validateEmail(email);
+				if (!emailValidation.valid) {
+					emailInput.classList.add('error');
+					emailError.textContent = emailValidation.message;
+					emailError.style.display = 'block';
+					return;
+				}
+
+				// Блокируем кнопку
+				this.disabled = true;
+				this.textContent = '🔄 Генерируем...';
+
+				try {
+					// Проверяем, зарегистрирован ли пользователь в Google Sheets
+					const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+					const response = await fetch(url);
+
+					if (!response.ok) {
+						throw new Error('Ошибка подключения к Google Sheets');
+					}
+
+					const data = await response.json();
+					const rows = data.values || [];
+
+					let userFound = false;
+					for (let i = 1; i < rows.length; i++) {
+						const row = rows[i];
+						const rowEmail = row[1] ? row[1].toString().toLowerCase().trim() : '';
+
+						if (rowEmail === email) {
+							userFound = true;
+							break;
+						}
+					}
+
+					if (!userFound) {
+						// Проверяем localStorage как fallback
+						const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+						const localUserExists = registeredUsers.some(u => u.email === email);
+
+						if (!localUserExists) {
+							emailInput.classList.add('error');
+							emailError.textContent = 'Пользователь с таким email не найден. Сначала зарегистрируйтесь!';
+							emailError.style.display = 'block';
+							this.disabled = false;
+							this.textContent = '🔄 Сгенерировать пароль';
+							return;
+						}
+					}
+
+					// Генерируем новый пароль
+					const newPassword = generateRandomPassword();
+
+					// Обновляем пароль в localStorage для данного пользователя
+					const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+					const userIndex = registeredUsers.findIndex(u => u.email === email);
+					if (userIndex !== -1) {
+						registeredUsers[userIndex].password = newPassword;
+						localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+					}
+
+					// Показываем новый пароль в модальном окне
+					showPasswordModal(newPassword);
+
+					// Очищаем ошибки
+					emailInput.classList.remove('error');
+					emailInput.classList.add('success');
+					emailError.style.display = 'none';
+
+					// Очищаем поле пароля
+					passwordInput.value = '';
+					passwordInput.classList.remove('error', 'success');
+					passwordError.style.display = 'none';
+					passwordSuccess.style.display = 'none';
+
+					// Уведомляем пользователя
+					// alert убран - пользователь видит модальное окно с паролем
+
+				} catch (error) {
+
+					// В случае ошибки API, пробуем работать с localStorage
+					const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+					const userIndex = registeredUsers.findIndex(u => u.email === email);
+
+					if (userIndex === -1) {
+						emailInput.classList.add('error');
+						emailError.textContent = 'Пользователь не найден. Ошибка подключения к базе данных.';
+						emailError.style.display = 'block';
+					} else {
+						// Обновляем пароль в localStorage
+						const newPassword = generateRandomPassword();
+						registeredUsers[userIndex].password = newPassword;
+						localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+
+						showPasswordModal(newPassword);
+
+						emailInput.classList.remove('error');
+						emailInput.classList.add('success');
+						emailError.style.display = 'none';
+
+						// alert убран - пользователь видит модальное окно с паролем
+					}
+				}
+
+				// Разблокируем кнопку
+				this.disabled = false;
+				this.textContent = '🔄 Сгенерировать пароль';
+			});			// Функции для работы с модальным окном пароля
+			function showPasswordModal(password) {
+				document.getElementById('generatedPassword').textContent = password;
+				document.getElementById('passwordModal').style.display = 'block';
+				document.body.style.overflow = 'hidden';
+			}
+
+			function closePasswordModal() {
+				document.getElementById('passwordModal').style.display = 'none';
+				document.body.style.overflow = 'auto';
+			}
+
+			// Обработчик для кнопки закрытия модального окна
+			document.getElementById('closePasswordModalBtn').addEventListener('click', closePasswordModal);
+
+			// Закрытие модального окна при клике вне его
+			document.getElementById('passwordModal').addEventListener('click', function (e) {
+				if (e.target === this) {
+					closePasswordModal();
+				}
+			});
+
+			// Обработчик для копирования пароля при клике
+			document.getElementById('generatedPassword').addEventListener('click', copyPassword);
+
+			function copyPassword() {
+				const passwordElement = document.getElementById('generatedPassword');
+				const password = passwordElement.textContent;
+
+				// Копируем в буфер обмена
+				navigator.clipboard.writeText(password).then(() => {
+					// Показываем что скопировано
+					passwordElement.style.background = '#d4edda';
+					passwordElement.style.border = '2px solid #28a745';
+					passwordElement.innerHTML = '✅ СКОПИРОВАНО!';
+
+					// Через 1 секунду возвращаем пароль
+					setTimeout(() => {
+						passwordElement.style.background = 'white';
+						passwordElement.style.border = '2px dashed var(--main-accent)';
+						passwordElement.textContent = password;
+					}, 1000);
+				}).catch(() => {
+					// Если не получилось скопировать, просто выделяем текст
+					passwordElement.select();
+				});
+			}
+
+			// Проверяем, не авторизован ли уже пользователь
+			const isLoggedIn = localStorage.getItem('userLoggedIn');
+			const userEmail = localStorage.getItem('userEmail');
+
+			if (isLoggedIn === 'true' && userEmail && userEmail.endsWith('@rostov.etagi.com')) {
+				window.location.href = 'index.html';
+			}
+
+		}); // Конец DOMContentLoaded
+	</script>
+</body>
+
+</html>

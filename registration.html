@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Регистрация партнера</title>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Регистрация партнера</title>
+		<style>
+			:root {
+				--main-bg: #f7faff;
+				--main-text: #1e293b;
+				--main-subtext: #64748b;
+				--main-accent: #007aff;
+				--main-accent-dark: #0051d2;
+				--main-card: #ffffff;
+				--apple-gray-50: #f9fafb;
+				--apple-gray-100: #f3f4f6;
+				--apple-gray-200: #e5e7eb;
+				--apple-gray-300: #d1d5db;
+				--apple-gray-400: #9ca3af;
+				--apple-gray-500: #6b7280;
+				--main-success: #10b981;
+				--main-error: #ef4444;
+			}
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+				background: linear-gradient(135deg, var(--main-bg) 0%, #ffffff 100%);
+				min-height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+			}
+
+			.login-container {
+				background: var(--main-card);
+				border-radius: 30px;
+				padding: 40px;
+				width: 100%;
+				max-width: 480px;
+				box-shadow: 0 25px 80px rgba(0, 0, 0, 0.08);
+				border: 2px solid var(--apple-gray-100);
+			}
+
+			.logo {
+				text-align: center;
+				margin-bottom: 32px;
+			}
+
+			.logo img {
+				height: 80px;
+				transition: transform 0.3s ease;
+			}
+
+			.logo img:hover {
+				transform: scale(1.05);
+			}
+
+			.login-header {
+				text-align: center;
+				margin-bottom: 32px;
+			}
+
+			.login-title {
+				color: var(--main-text);
+				font-size: 28px;
+				font-weight: 700;
+				margin-bottom: 8px;
+			}
+
+			.login-subtitle {
+				color: var(--main-subtext);
+				font-size: 16px;
+				line-height: 1.5;
+			}
+
+			.requirements {
+				background: var(--apple-gray-50);
+				border: 1px solid var(--apple-gray-200);
+				border-radius: 20px;
+				padding: 16px;
+				margin-bottom: 24px;
+			}
+
+			.requirements b {
+				color: var(--main-text);
+			}
+
+			.requirements span {
+				color: var(--main-error);
+			}
+
+			.form-group {
+				margin-bottom: 24px;
+			}
+
+			.form-label {
+				display: block;
+				color: var(--main-text);
+				font-size: 14px;
+				font-weight: 600;
+				margin-bottom: 8px;
+			}
+
+			.form-input {
+				width: 100%;
+				padding: 16px 20px;
+				border: 2px solid var(--apple-gray-200);
+				border-radius: 20px;
+				font-size: 16px;
+				color: var(--main-text);
+				background: var(--apple-gray-50);
+				transition: all 0.3s ease;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+			}
+
+			.form-input:focus {
+				outline: none;
+				border-color: var(--main-accent);
+				background: white;
+				box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+			}
+
+			.form-input.error {
+				border-color: var(--main-error);
+				background: #fef2f2;
+			}
+
+			.form-input.success {
+				border-color: var(--main-success);
+				background: #f0fdf4;
+			}
+
+			.error-message {
+				color: var(--main-error);
+				font-size: 14px;
+				margin-top: 8px;
+				display: none;
+			}
+
+			.success-message {
+				color: var(--main-success);
+				font-size: 14px;
+				margin-top: 8px;
+				display: none;
+			}
+
+			.login-button {
+				width: 100%;
+				background: var(--main-accent);
+				color: white;
+				border: none;
+				border-radius: 25px;
+				padding: 16px 24px;
+				font-size: 16px;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				margin-bottom: 20px;
+				box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+			}
+
+			.login-button:hover {
+				background: var(--main-accent-dark);
+				transform: translateY(-2px);
+				box-shadow: 0 8px 20px rgba(0, 122, 255, 0.4);
+			}
+
+			.login-button:disabled {
+				background: var(--apple-gray-300);
+				cursor: not-allowed;
+				transform: none;
+				box-shadow: none;
+			}
+
+			.alternative-section {
+				text-align: center;
+				margin: 24px 0;
+				color: var(--main-subtext);
+				font-size: 14px;
+			}
+
+			.alternative-button {
+				width: 100%;
+				background: var(--apple-gray-100);
+				color: var(--main-text);
+				border: 2px solid var(--apple-gray-200);
+				border-radius: 25px;
+				padding: 14px 24px;
+				font-size: 14px;
+				font-weight: 500;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				text-decoration: none;
+				display: inline-block;
+				text-align: center;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+			}
+
+			.alternative-button:hover {
+				background: var(--apple-gray-200);
+				border-color: var(--apple-gray-300);
+				transform: translateY(-2px);
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			}
+
+			.buttons-row {
+				display: flex;
+				gap: 12px;
+				margin-top: 16px;
+			}
+
+			.half-button {
+				flex: 1;
+				background: var(--apple-gray-100);
+				color: var(--main-text);
+				border: 2px solid var(--apple-gray-200);
+				border-radius: 25px;
+				padding: 14px 16px;
+				font-size: 14px;
+				font-weight: 500;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				text-decoration: none;
+				display: inline-block;
+				text-align: center;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+			}
+
+			.half-button:hover {
+				background: var(--apple-gray-200);
+				border-color: var(--apple-gray-300);
+				transform: translateY(-2px);
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			}
+
+			@media (max-width: 768px) {
+				.login-container {
+					padding: 24px;
+					margin: 16px;
+				}
+
+				.login-title {
+					font-size: 24px;
+				}
+			}
+		</style>
+	</head>
+
+<body>
+	<div class="login-container">
+		<div class="logo">
+			<img src="https://i.postimg.cc/zGjfVHdx/image.png" alt="Этажи₽lay">
+		</div>
+		<div class="login-header">
+			<h1 class="login-title">📝 Регистрация</h1>
+			<p class="login-subtitle">
+				Простая регистрация для партнеров.<br>Получите пароль на корпоративную почту!
+			</p>
+		</div>
+		<div class="requirements">
+			<b>Требования:</b><br>
+			• ID действующего партнера<br>
+			• Корпоративная почта <b>@rostov.etagi.com</b><br>
+			• ID и почта должны принадлежать одному и тому же партнеру<br>
+			<span>Важное: Пароль будет показан на экране после проверки</span><br>
+			• При каждом новом входе процедуру нужно повторять!
+		</div>
+		<form id="regForm">
+			<div class="form-group">
+				<label for="partnerId" class="form-label">ID партнера</label>
+				<input type="text" id="partnerId" class="form-input" required>
+			</div>
+			<div class="form-group">
+				<label for="email" class="form-label">Корпоративная почта</label>
+				<input type="email" id="email" class="form-input" required>
+			</div>
+			<div id="errorMsg" class="error-message"></div>
+			<div id="successMsg" class="success-message"></div>
+			<button type="submit" class="login-button">Зарегистрироваться</button>
+		</form>
+
+		<div class="alternative-section">
+			Уже есть аккаунт?
+		</div>
+		<a href="login.html" class="alternative-button">
+			🔑 Войти в систему
+		</a>
+	</div>
+	<script>
+		const regForm = document.getElementById('regForm');
+		const partnerId = document.getElementById('partnerId');
+		const email = document.getElementById('email');
+		const errorMsg = document.getElementById('errorMsg');
+		const successMsg = document.getElementById('successMsg');
+
+		const GOOGLE_API_KEY = 'AIzaSyDlejl66tn6Ik2NPLcV3fyoarRbdOliaww';
+		const SPREADSHEET_ID = '1I59nc5HqphN0IJVoMCEAER29JQiphyDkvzXTRIfFi3s';
+		const RANGE = 'Учетные записи!A:C';
+
+		async function checkUserInSheet(id, email) {
+			const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${GOOGLE_API_KEY}`;
+			try {
+				const res = await fetch(url);
+				if (!res.ok) throw new Error('Ошибка доступа к Google Таблице');
+				const data = await res.json();
+				if (!data.values || !Array.isArray(data.values)) throw new Error('Нет данных в таблице');
+				// Пропускаем первую строку (заголовки)
+				const rows = data.values.slice(1);
+				const inputId = id.trim().toLowerCase();
+				const inputEmail = email.trim().toLowerCase();
+				const found = rows.find(row => {
+					const sheetId = (row[0] || '').trim().toLowerCase();
+					const sheetEmail = (row[1] || '').trim().toLowerCase();
+					const match = sheetId === inputId && sheetEmail === inputEmail;
+					return match;
+				});
+				return !!found;
+			} catch (err) {
+				errorMsg.textContent = 'Ошибка регистрации: ' + err.message;
+				errorMsg.style.display = 'block';
+				return false;
+			}
+		}
+
+		regForm.addEventListener('submit', async function (e) {
+			e.preventDefault();
+			errorMsg.style.display = 'none';
+			successMsg.style.display = 'none';
+			if (!email.value.endsWith('@rostov.etagi.com')) {
+				errorMsg.textContent = 'Только корпоративная почта @rostov.etagi.com';
+				errorMsg.style.display = 'block';
+				return;
+			}
+			// Проверяем пользователя в Google Sheets
+			successMsg.textContent = 'Проверка данных...';
+			successMsg.style.display = 'block';
+			const isValid = await checkUserInSheet(partnerId.value, email.value);
+			if (!isValid) {
+				successMsg.style.display = 'none';
+				errorMsg.textContent = 'Пользователь не найден в базе партнеров.';
+				errorMsg.style.display = 'block';
+				return;
+			}
+			// Если найден — сохраняем в localStorage и редиректим на login.html
+			const password = Math.random().toString(36).slice(-8);
+			const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+			users.push({ id: partnerId.value, email: email.value.toLowerCase(), password });
+			localStorage.setItem('registeredUsers', JSON.stringify(users));
+			window.location.href = 'login.html';
+		});
+	</script>
+</body>
+<!-- End of registration form -->
+</body>
+
+</html>

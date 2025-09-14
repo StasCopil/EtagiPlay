@@ -1,0 +1,3147 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Этажи Play — Система мотивации риелторов</title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+		* {
+			font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+		}
+
+		:root {
+			--main-bg: #f7faff;
+			--main-card: #ffffff;
+			--main-accent: #007aff;
+			--main-accent-dark: #0051d2;
+			--main-text: #222a36;
+			--main-subtext: #4a5568;
+			--main-shadow: rgba(0, 122, 255, 0.08);
+			--main-shadow-lg: rgba(0, 122, 255, 0.16);
+			--apple-white: #fff;
+			--apple-blue: #007aff;
+			--apple-gray-50: #f9fafb;
+			--apple-gray-100: #f3f4f6;
+			--apple-gray-200: #e5e7eb;
+			--apple-gray-300: #d1d5db;
+			--apple-gray-400: #9ca3af;
+			--apple-gray-600: #4b5563;
+			--apple-gray-700: #374151;
+			--apple-gray-900: #111827;
+			--apple-shadow: rgba(17, 24, 39, .08);
+		}
+
+		body {
+			background: var(--main-bg);
+			color: var(--main-text);
+			min-height: 100vh;
+			line-height: 1.6;
+			font-weight: 400;
+			display: none;
+			/* Скрываем до проверки авторизации */
+		}
+
+		.apple-card {
+			background: var(--main-card);
+			border-radius: 16px;
+			box-shadow: 0 4px 20px var(--main-shadow);
+			border: 1.5px solid var(--main-accent);
+			transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			height: 500px;
+		}
+
+		.apple-card:hover {
+			box-shadow: 0 8px 40px var(--main-shadow-lg);
+			transform: scale(1.04);
+		}
+
+		.apple-button {
+			background: var(--main-accent);
+			color: #fff;
+			border: none;
+			border-radius: 12px;
+			padding: 12px 24px;
+			font-weight: 500;
+			font-size: 16px;
+			cursor: pointer;
+			transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		}
+
+		.apple-button:hover {
+			background: var(--main-accent-dark);
+			transform: translateY(-1px);
+		}
+
+		.apple-button:active {
+			transform: translateY(0);
+		}
+
+		.apple-button-secondary {
+			background: #eaf2ff;
+			color: var(--main-accent-dark);
+			border: 1.5px solid var(--main-accent);
+			border-radius: 12px;
+			padding: 12px 24px;
+			font-weight: 500;
+			font-size: 16px;
+			cursor: pointer;
+			transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		}
+
+		.apple-button-secondary:hover {
+			background: #dbeaff;
+			border-color: var(--main-accent-dark);
+		}
+
+		.apple-nav {
+			background: rgba(247, 250, 255, 0.95);
+			backdrop-filter: blur(20px);
+			border-bottom: 1.5px solid var(--main-accent);
+		}
+
+		.apple-input {
+			background: var(--apple-gray-50);
+			border: 1px solid var(--apple-gray-300);
+			border-radius: 8px;
+			padding: 12px 16px;
+			color: var(--apple-gray-900);
+			font-size: 16px;
+			transition: all 0.2s ease;
+		}
+
+		.apple-input:focus {
+			outline: none;
+			border-color: var(--apple-blue);
+			box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+		}
+
+		.apple-section {
+			padding: 48px 0;
+		}
+
+		.apple-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 0 24px;
+		}
+
+		.apple-title {
+			font-size: 48px;
+			font-weight: 700;
+			line-height: 1.1;
+			color: var(--apple-gray-900);
+			margin-bottom: 24px;
+		}
+
+		.apple-subtitle {
+			font-size: 21px;
+			font-weight: 400;
+			line-height: 1.4;
+			color: var(--apple-gray-600);
+			margin-bottom: 40px;
+		}
+
+		.apple-text {
+			font-size: 17px;
+			line-height: 1.5;
+			color: var(--apple-gray-700);
+		}
+
+		.apple-table-container {
+			background: var(--apple-white);
+			border-radius: 16px;
+			box-shadow: 0 4px 20px var(--apple-shadow);
+			border: 1px solid var(--apple-gray-200);
+			overflow: hidden;
+			padding: 24px;
+		}
+
+		.apple-toggle {
+			background: var(--apple-gray-50);
+			border: 1px solid var(--apple-gray-300);
+			border-radius: 12px;
+			padding: 16px 32px;
+			color: var(--apple-gray-900);
+			font-weight: 500;
+			font-size: 17px;
+			cursor: pointer;
+			transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		.apple-toggle:hover {
+			background: var(--apple-gray-100);
+			border-color: var(--apple-gray-400);
+			transform: translateY(-1px);
+		}
+
+		.apple-toggle.active {
+			background: var(--apple-blue);
+			color: var(--apple-white);
+			border-color: var(--apple-blue);
+		}
+
+		.apple-price {
+			font-size: 24px;
+			font-weight: 600;
+			color: var(--apple-gray-900);
+		}
+
+		.apple-link {
+			color: var(--apple-blue);
+			text-decoration: none;
+			font-weight: 500;
+			transition: opacity 0.2s ease;
+		}
+
+		.apple-link:hover {
+			opacity: 0.8;
+		}
+
+		.apple-badge {
+			background: var(--apple-gray-100);
+			color: var(--apple-gray-700);
+			padding: 4px 12px;
+			border-radius: 20px;
+			font-size: 14px;
+			font-weight: 500;
+			min-width: 70px;
+			text-align: center;
+		}
+
+		.apple-section-gray {
+			background: var(--apple-gray-50);
+		}
+
+		.apple-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 32px;
+			margin-top: 64px;
+		}
+
+		@media (max-width: 768px) {
+			.apple-title {
+				font-size: 32px;
+			}
+
+			.apple-subtitle {
+				font-size: 19px;
+			}
+
+			.apple-section {
+				padding: 60px 0;
+			}
+		}
+
+		.accent-button:active {
+			transform: translateY(0);
+			box-shadow:
+				4px 4px 8px var(--shadow-dark),
+				-4px -4px 8px var(--shadow-light);
+		}
+
+		.price-display {
+			font-size: 1.1rem;
+			font-weight: 700;
+			color: var(--main-accent);
+			text-align: center;
+			margin: 16px 0 0 0;
+			letter-spacing: 0.03em;
+			display: block;
+		}
+
+		.tag-neumorphic {
+			background: var(--main-accent);
+			color: #fff;
+			padding: 4px 12px;
+			border-radius: 12px;
+			font-size: 12px;
+			font-weight: 500;
+			box-shadow:
+				3px 3px 6px rgba(108, 92, 231, 0.3),
+				-3px -3px 6px rgba(255, 255, 255, 0.1);
+		}
+
+		.floating-icon {
+			background: var(--bg-card);
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			box-shadow:
+				8px 8px 16px var(--shadow-dark),
+				-8px -8px 16px var(--shadow-light);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0 auto 20px;
+		}
+
+		.section-divider {
+			height: 24px;
+			background: var(--apple-gray-50);
+			margin-bottom: -12px;
+		}
+
+		.table-container-neo {
+			background: var(--bg-card);
+			border-radius: 25px;
+			box-shadow:
+				inset 8px 8px 16px var(--shadow-dark),
+				inset -8px -8px 16px var(--shadow-light);
+			border: 1px solid rgba(0, 212, 170, 0.3);
+			overflow: visible;
+			padding: 20px;
+		}
+
+
+
+		.special-card {
+			background: var(--gradient-primary);
+			border: 2px solid var(--accent);
+		}
+
+		.text-gradient {
+			background: var(--gradient-accent);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.hero-title {
+			font-size: clamp(48px, 8vw, 96px);
+			font-weight: 700;
+			line-height: 0.9;
+			letter-spacing: -0.02em;
+		}
+
+		@media (max-width: 768px) {
+			.neomorphic {
+				box-shadow:
+					6px 6px 12px var(--shadow-dark),
+					-6px -6px 12px var(--shadow-light);
+			}
+
+			.neomorphic-card {
+				box-shadow:
+					8px 8px 16px var(--shadow-dark),
+					-8px -8px 16px var(--shadow-light);
+			}
+		}
+
+		.slide-in {
+			opacity: 0;
+			transform: translateY(30px);
+			animation: slideIn 0.8s ease forwards;
+		}
+
+		@keyframes slideIn {
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.delay-1 {
+			animation-delay: 0.2s;
+		}
+
+		.delay-2 {
+			animation-delay: 0.4s;
+		}
+
+		.delay-3 {
+			animation-delay: 0.6s;
+		}
+
+		.neomorphic-card {
+			background: var(--main-card);
+			border-radius: 16px;
+			box-shadow: 0 4px 20px var(--main-shadow), 0 1px 6px var(--main-shadow);
+			border: 1.5px solid var(--main-accent);
+			transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s, filter 0.3s;
+			overflow: hidden;
+			max-width: 280px;
+			margin: 0 auto;
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.neomorphic-card:hover {
+			box-shadow: 0 8px 32px var(--main-shadow-lg), 0 2px 12px var(--main-shadow-lg);
+			border-color: var(--main-accent-dark);
+			transform: scale(1.05);
+			filter: brightness(1.05) drop-shadow(0 6px 18px rgba(0, 122, 255, 0.15));
+			z-index: 2;
+		}
+
+		.neomorphic-card img {
+			border-radius: 16px;
+			transition: box-shadow 0.3s;
+			box-shadow: 0 2px 12px rgba(0, 122, 255, 0.10);
+		}
+
+		.neomorphic-card:hover img {
+			box-shadow: 0 8px 32px rgba(0, 122, 255, 0.18);
+		}
+
+		/* Модальное окно */
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1000;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.6);
+			backdrop-filter: blur(8px);
+		}
+
+		.modal-content {
+			background-color: var(--main-card);
+			margin: 3% auto;
+			padding: 0;
+			border-radius: 20px;
+			width: 90%;
+			max-width: 520px;
+			box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+			animation: modalSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			border: 2px solid var(--main-accent);
+		}
+
+		@keyframes modalSlideIn {
+			from {
+				transform: translateY(-80px) scale(0.9);
+				opacity: 0;
+			}
+
+			to {
+				transform: translateY(0) scale(1);
+				opacity: 1;
+			}
+		}
+
+		.modal-header {
+			padding: 24px 28px 20px;
+			border-bottom: 1px solid var(--apple-gray-200);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			background: linear-gradient(135deg, var(--main-bg) 0%, #ffffff 100%);
+			border-radius: 20px 20px 0 0;
+		}
+
+		.modal-body {
+			padding: 28px;
+			text-align: center;
+		}
+
+		.close {
+			color: var(--apple-gray-400);
+			font-size: 32px;
+			font-weight: bold;
+			cursor: pointer;
+			line-height: 1;
+			transition: all 0.2s ease;
+			padding: 4px;
+			border-radius: 8px;
+		}
+
+		.close:hover {
+			color: var(--main-accent);
+			background: var(--apple-gray-100);
+			transform: scale(1.1);
+		}
+
+		.order-button {
+			background: var(--main-accent);
+			color: white;
+			border: none;
+			border-radius: 12px;
+			padding: 12px 24px;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.2s;
+			text-decoration: none;
+			display: inline-block;
+		}
+
+		.order-button:hover {
+			background: var(--main-accent-dark);
+			transform: translateY(-1px);
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Скрипт проверки авторизации -->
+	<script>
+		// Конфигурация Google Sheets API
+		const GOOGLE_API_KEY = 'AIzaSyDlejl66tn6Ik2NPLcV3fyoarRbdOliaww'; // API ключ для Google Sheets
+		const SPREADSHEET_ID = '1I59nc5HqphN0IJVoMCEAER29JQiphyDkvzXTRIfFi3s'; // ID вашей таблицы
+		const SHEET_RANGE = "учетные записи!A1:Z1000";
+
+		// Проверяем авторизацию при загрузке страницы
+		document.addEventListener('DOMContentLoaded', function () {
+			// Проверяем состояние авторизации
+			checkAuthState();
+		});
+
+		// Функция проверки состояния авторизации
+		async function checkAuthState() {
+			const isLoggedIn = localStorage.getItem('userLoggedIn');
+			const userEmail = localStorage.getItem('userEmail');
+			const justLoggedIn = localStorage.getItem('justLoggedIn'); // Флаг что пользователь только что вошел
+
+			// Если пользователь не авторизован, перенаправляем на страницу входа
+			if (!isLoggedIn || isLoggedIn !== 'true' || !userEmail) {
+				window.location.href = 'login.html';
+				return;
+			}
+
+			// Проверяем корпоративный домен
+			if (!userEmail.endsWith('@rostov.etagi.com')) {
+				// Сохраняем данные пользователей при очистке
+				const registeredUsers = localStorage.getItem('registeredUsers');
+				localStorage.clear();
+				if (registeredUsers) {
+					localStorage.setItem('registeredUsers', registeredUsers);
+				}
+				window.location.href = 'login.html';
+				return;
+			}
+
+			// Пользователь авторизован, показываем страницу
+			displayUserInfo(userEmail);
+			document.body.style.display = 'block';
+
+			// Если пользователь только что залогинился, показываем приветственное окно
+			if (justLoggedIn === 'true') {
+				showWelcomeModal();
+				localStorage.removeItem('justLoggedIn'); // Убираем флаг
+			}
+		}
+
+		// Функция отображения информации о пользователе
+		function displayUserInfo(email) {
+			// Получаем данные пользователя из localStorage
+			const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+			const currentUser = registeredUsers.find(user => user.email === email.toLowerCase());
+
+			let displayText = '';
+
+			if (currentUser && (currentUser.id || currentUser.employeeId)) {
+				// Если есть ID пользователя, показываем ID + инициалы из email
+				const userId = currentUser.id || currentUser.employeeId;
+				const emailUsername = email.split('@')[0]; // Например: s.s.sizko
+				displayText = `🆔 ${userId} | 👤 ${emailUsername}`;
+			} else {
+				// Если нет ID, показываем только инициалы из email
+				const emailUsername = email.split('@')[0];
+				displayText = `👤 ${emailUsername}`;
+			}
+
+			// Обновляем интерфейс с информацией о пользователе
+			const userInfoElement = document.getElementById('userInfo');
+			if (userInfoElement) {
+				userInfoElement.textContent = displayText;
+				userInfoElement.classList.add('loaded');
+			}
+		}		// Функция показа приветственного модального окна
+		function showWelcomeModal() {
+			const modal = document.getElementById('welcomeModal');
+			if (modal) {
+				modal.style.display = 'block';
+				document.body.style.overflow = 'hidden';
+			}
+		}
+
+		// Функция закрытия модального окна
+		function closeWelcomeModal() {
+			const modal = document.getElementById('welcomeModal');
+			if (modal) {
+				modal.style.display = 'none';
+				document.body.style.overflow = 'auto';
+			}
+		}
+
+		// Функция перехода к входу
+		function goToLogin() {
+			window.location.href = 'login.html';
+		}
+
+		// Функция выхода
+		function logout() {
+			// Сохраняем данные пользователей при выходе
+			const registeredUsers = localStorage.getItem('registeredUsers');
+			localStorage.clear();
+			if (registeredUsers) {
+				localStorage.setItem('registeredUsers', registeredUsers);
+			}
+			window.location.href = 'login.html';
+		}
+
+		// Проверка ID сотрудника и email в Google Таблице
+		async function validateEmployeeData(employeeId, email) {
+			try {
+				const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_RANGE}?key=${GOOGLE_API_KEY}`;
+				const response = await fetch(url);
+
+				if (!response.ok) {
+					throw new Error('Ошибка доступа к Google Таблице');
+				}
+
+				const data = await response.json();
+				const rows = data.values || [];
+				// Пропускаем первую строку (заголовки)
+				const employeeRows = rows.slice(1);
+
+				// Ищем совпадение ID и email
+				const isValid = employeeRows.some(row => {
+					const tableId = row[0]?.toString().trim().toLowerCase();
+					const tableEmail = row[1]?.toString().trim().toLowerCase();
+					return tableId === employeeId.toLowerCase() && tableEmail === email.toLowerCase();
+				});
+
+				if (isValid) {
+					return { valid: true, message: 'Данные подтверждены' };
+				} else {
+					return { valid: false, message: 'ID и email не найдены в базе сотрудников' };
+				}
+			} catch (error) {
+				return { valid: false, message: 'Ошибка проверки данных: ' + error.message };
+			}
+		}
+	</script>
+
+
+
+	<!-- Приветственное модальное окно для новых пользователей -->
+	<div id="welcomeModal" class="modal" style="display: none;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2
+					style="color: var(--main-text); margin: 0; font-size: 24px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
+					<img src="https://i.postimg.cc/zGjfVHdx/image.png" alt="ЭтажиPlay Logo"
+						style="height: 28px; vertical-align: middle;">
+					Добро пожаловать в ЭтажиPlay!
+				</h2>
+				<span class="close" onclick="closeWelcomeModal()">&times;</span>
+			</div>
+			<div class="modal-body">
+				<div style="margin-bottom: 20px;">
+					<svg style="width: 64px; height: 64px; color: var(--main-accent); margin: 0 auto 16px;" fill="currentColor"
+						viewBox="0 0 20 20">
+						<path fill-rule="evenodd"
+							d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+							clip-rule="evenodd"></path>
+					</svg>
+				</div>
+
+				<h3 style="color: var(--main-text); margin-bottom: 12px; font-size: 20px; font-weight: 600;">
+					Закрытая корпоративная бонусная программа исключительно для партнеров АН Этажи.
+				</h3>
+
+				<p style="color: var(--main-subtext); margin-bottom: 24px; line-height: 1.5;">
+					Данный каталог предназначен исключительно для ознакомления действующих партнеров с актуальными
+					призами. Участие в программе осуществляется в соответствии с внутренними правилами компании. Третьи лица не
+					могут претендовать на получение призов.
+				</p>
+			</div>
+
+			<div style="background: var(--apple-gray-50); padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+				<p style="color: var(--main-subtext); font-size: 13px; margin: 0; text-align: center;">
+					🔒 Помните: данные системы конфиденциальны и предназначены только для внутреннего использования. Любое
+					копирование и несанкционированный доступ запрещены!
+				</p>
+			</div>
+
+			<button onclick="closeWelcomeModal()" class="order-button"
+				style="max-width: 320px; min-width: 220px; margin: 0 auto 16px; display: block; white-space: nowrap;">
+				Нажмите, чтобы начать работу
+			</button>
+		</div>
+	</div>
+	</div>
+
+	<!--НАВИГАЦИЯ -->
+	<nav class="apple-nav fixed top-0 left-0 w-full z-50"
+		style="background: rgba(247,250,255,0.45); backdrop-filter: blur(8px); position:fixed; top:0; left:0; right:0; width:100vw; z-index:100; box-shadow: 0 2px 8px rgba(0,0,0,0.03); height:54px; border:none;">
+		<div class="max-w-6xl mx-auto px-6 py-4">
+			<div class="flex justify-between items-center">
+				<div class="flex items-center">
+					<img src="https://i.postimg.cc/zGjfVHdx/image.png" alt="Rewards Hub Logo"
+						class="h-20 transition-all duration-300 ease-in-out transform hover:scale-110 hover:brightness-105 hover:drop-shadow-md">
+				</div>
+
+				<!-- Центральные кнопки навигации -->
+				<div class="flex space-x-4">
+					<a href="#leaders" onclick="scrollToSection('leaders'); return false;"
+						class="nav-btn text-xl font-bold bg-gradient-to-r from-blue-100 via-blue-50 to-indigo-100 shadow-lg border-2 border-blue-300 rounded-xl px-6 py-3 hover:bg-blue-200 transition-all duration-300 animated-nav"
+						style="backdrop-filter: blur(12px); background: rgba(247,250,255,0.7); box-shadow: 0 8px 32px rgba(0,122,255,0.12); border: 1.5px solid #b3cfff; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;">
+						<span class="text-xl font-extrabold text-blue-700 tracking-wide">
+							Достижения
+						</span>
+					</a>
+					<a href="#catalog"
+						class="nav-btn text-xl font-bold bg-gradient-to-r from-blue-100 via-blue-50 to-indigo-100 shadow-lg border-2 border-blue-300 rounded-xl px-6 py-3 hover:bg-blue-200 transition-all duration-300 animated-nav"
+						style="backdrop-filter: blur(12px); background: rgba(247,250,255,0.7); box-shadow: 0 8px 32px rgba(0,122,255,0.12); border: 1.5px solid #b3cfff; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;">
+						<span class="text-xl font-extrabold text-blue-700 tracking-wide">
+							Призы
+						</span>
+					</a>
+					<a href="#support"
+						class="nav-btn text-xl font-bold bg-gradient-to-r from-blue-100 via-blue-50 to-indigo-100 shadow-lg border-2 border-blue-300 rounded-xl px-6 py-3 hover:bg-blue-200 transition-all duration-300 animated-nav"
+						style="backdrop-filter: blur(12px); background: rgba(247,250,255,0.7); box-shadow: 0 8px 32px rgba(0,122,255,0.12); border: 1.5px solid #b3cfff; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;">
+						<span class="text-xl font-extrabold text-blue-700 tracking-wide">
+							Связаться
+						</span>
+					</a>
+				</div>
+
+				<!-- Информация о пользователе и кнопка выхода -->
+				<div class="flex items-center space-x-4">
+					<div id="userInfo"
+						style="color: var(--main-text); font-weight: 500; font-size: 14px; padding: 8px 12px; background: var(--apple-gray-50); border-radius: 8px;">
+						<!-- Информация о пользователе загружается через JS -->
+					</div>
+					<button id="logoutButton" onclick="logout()"
+						class="nav-btn text-xl font-bold bg-gradient-to-r from-red-100 via-red-50 to-red-100 shadow-lg border-2 border-red-300 rounded-xl px-3 py-3 hover:bg-red-200 transition-all duration-300 group"
+						style="backdrop-filter: blur(12px); background: rgba(254,242,242,0.8); box-shadow: 0 8px 32px rgba(239,68,68,0.15); border: 1.5px solid #fca5a5; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif; position: relative; overflow: hidden;">
+						<svg class="w-6 h-6 transition-transform duration-300 group-hover:translate-x-1" fill="none"
+							stroke="#dc2626" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</div>
+		<style>
+			.animated-nav {
+				position: relative;
+				overflow: hidden;
+				transition: box-shadow 0.3s, transform 0.3s;
+			}
+
+			.animated-nav::before {
+				content: '';
+				position: absolute;
+				left: 50%;
+				top: 0;
+				transform: translateX(-50%) scaleX(0);
+				width: 80%;
+				height: 4px;
+				background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
+				border-radius: 2px;
+				transition: transform 0.3s;
+				z-index: 1;
+			}
+
+			.animated-nav:hover {
+				box-shadow: 0 12px 36px rgba(0, 122, 255, 0.18), 0 2px 12px #6366f1;
+				transform: translateY(-2px) scale(1.04);
+			}
+
+			.animated-nav:hover::before {
+				transform: translateX(-50%) scaleX(1);
+			}
+
+			.animated-nav span {
+				position: relative;
+				z-index: 2;
+				transition: letter-spacing 0.3s, color 0.3s;
+			}
+
+			.animated-nav:hover span {
+				letter-spacing: 0.05em;
+				color: #0051d2;
+			}
+
+			/* Стили для кнопки выхода */
+			#logoutButton {
+				position: relative;
+				overflow: hidden;
+			}
+
+			#logoutButton:hover {
+				box-shadow: 0 12px 36px rgba(220, 38, 38, 0.25), 0 2px 12px rgba(185, 28, 28, 0.3);
+				transform: translateY(-2px) scale(1.05);
+				background: rgba(254, 242, 242, 0.9) !important;
+			}
+
+			#logoutButton:hover svg {
+				stroke: #b91c1c;
+				transform: translateX(2px) scale(1.1);
+			}
+
+			#logoutButton:active {
+				transform: translateY(0) scale(1.02);
+			}
+
+			/* Стили для информации о пользователе */
+			#userInfo {
+				display: none;
+				/* Скрываем до загрузки */
+			}
+
+			#userInfo.loaded {
+				display: block;
+			}
+		</style>
+		<style>
+			.animated-nav {
+				position: relative;
+				overflow: hidden;
+				transition: box-shadow 0.3s, transform 0.3s;
+			}
+
+			.animated-nav::before {
+				content: '';
+				position: absolute;
+				left: 50%;
+				top: 0;
+				transform: translateX(-50%) scaleX(0);
+				width: 80%;
+				height: 4px;
+				background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
+				border-radius: 2px;
+				transition: transform 0.3s;
+				z-index: 1;
+			}
+
+			.animated-nav:hover {
+				box-shadow: 0 12px 36px rgba(0, 122, 255, 0.18), 0 2px 12px #6366f1;
+				transform: translateY(-2px) scale(1.04);
+			}
+
+			.animated-nav:hover::before {
+				transform: translateX(-50%) scaleX(1);
+			}
+
+			.animated-nav span {
+				position: relative;
+				z-index: 2;
+				transition: letter-spacing 0.3s, color 0.3s;
+			}
+
+			.animated-nav:hover span {
+				letter-spacing: 0.05em;
+				color: #0051d2;
+			}
+
+			/* Специальные стили для кнопки выхода */
+			#logoutButton:hover {
+				box-shadow: 0 12px 36px rgba(220, 38, 38, 0.25), 0 2px 12px rgba(185, 28, 28, 0.3);
+				transform: translateY(-2px) scale(1.05);
+				background: rgba(254, 242, 242, 0.9) !important;
+			}
+
+			#logoutButton:hover svg {
+				stroke: #b91c1c;
+				transform: translateX(2px) scale(1.1);
+			}
+
+			#logoutButton:active {
+				transform: translateY(0) scale(1.02);
+			}
+		</style>
+	</nav>
+
+	<!-- СЛОГАН ПОД НАВИГАЦИЕЙ -->
+	<div class="w-full py-6 bg-gradient-to-r from-blue-50 to-indigo-50 text-center mt-20">
+		<span class="text-3xl font-bold"
+			style="color: #222a36; font-weight: 700; letter-spacing: 0.02em; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;">
+			<span style="color: #fc403a;">Этажи</span><span style="font-weight:bold;"><span
+					style="font-size:1.2em;vertical-align:middle;">&#8381;</span>lay</span> — Центр достижений!
+		</span>
+	</div>
+
+	<!-- ГЛАВНАЯ СЕКЦИЯ -->
+	<section class="apple-section pt-32">
+		<div class="max-w-6xl mx-auto px-6 text-center">
+			<div class="slide-in delay-1">
+				<p class="apple-subtitle max-w-3xl mx-auto mb-12">
+					<strong>Выполняй планы по вторичке — получай бонусы</strong>
+				</p>
+			</div>
+
+	</section>
+
+	<div class="section-divider"></div>
+
+
+
+	<div class="w-full mx-auto">
+		<div class="text-center mb-12">
+			<button onclick="openMethodology()" class="sheet-btn apple-button">
+				📊 Методология расчета и правила начисления баллов
+			</button>
+		</div>
+
+		<!-- Модальное окно -->
+		<div id="methodologyModal" class="modal">
+			<div class="modal-content"
+				style="border: 2px solid var(--main-accent); background: var(--main-card); border-radius: 24px; padding: 32px; max-width: 900px; margin: auto;">
+				<span class="close" onclick="closeModal()">&times;</span>
+				<div class="methodology-content" style="padding: 0;">
+					<!-- Новое модальное окно "Правила начисления и использования баллов" -->
+					<div class="section info"
+						style="margin-bottom: 24px; background: linear-gradient(135deg, #eaf2ff, #dbeaff); border: 2px solid var(--main-accent); border-radius: 18px; padding: 28px; color: var(--main-text); text-align: left; font-size: 1.08em;">
+						<h2 style="font-size: 1.25em; font-weight: 700; color: var(--main-accent); margin-bottom: 16px;">Правила
+							начисления и использования баллов</h2>
+						<ul style="font-size: 1em; color: var(--main-text); margin-bottom: 0; padding-left: 20px;">
+							<li>Начисление баллов производится ежемесячно, в период с 1 по 3 число месяца.</li>
+							<li>Баллы можно копить без ограничений по срокам.</li>
+							<li>Проверка баланса осуществляется в Google Таблице «ЭтажиPlay» (лист Балансы).</li>
+							<li>Сгорание баллов: если партнер прекращает сотрудничество с компанией, все его накопленные баллы
+								аннулируются.</li>
+							<li>Командные активности: списание баллов с нескольких партнеров на один приз возможно только после
+								согласования с директором.</li>
+						</ul>
+					</div>
+					<!-- Конец нового блока -->
+
+					<div class="section yellow"
+						style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border: 2px solid #3b82f6; border-radius: 18px; padding: 28px; margin-bottom: 24px; font-size: 1.08em;">
+						<h2
+							style="background: var(--main-accent); color: #fff; font-weight: 700; margin: -28px -28px 24px -28px; padding: 24px; text-align: center; border-radius: 12px 12px 0 0; font-size: 1.25em;">
+							Методика расчета рейтинга</h2>
+					</div>
+
+					<div class="section"
+						style="margin-bottom: 24px; background: linear-gradient(135deg, #eaf2ff, #dbeaff); border: 2px solid var(--main-accent); border-radius: 18px; padding: 28px; color: var(--main-text); text-align: left; font-size: 1.08em;">
+						<p><strong>Рейтинг формируется отдельно для партнеров каждой из трех групп стажа: 0–3, 4–6 и 6+
+								месяцев.</strong></p>
+						<p>Правила расчета рейтинга и определения позиции одинаковы для всех групп стажа:</p>
+						<ul>
+							<li style="color:#FC403A;">-В рейтинге выше тот партнер, который заработал больше баллов по итогам расчета
+							</li>
+							<li style="color:#FC403A;">
+								-Если несколько партнеров заработали одинаковую сумму, то их порядок в рейтинге определяется исходя из %
+								выполнения опережающих показателей <br>
+								<span style="color:#130909; display:block; text-align:center;">(см. таблицу ЭтажиPlay)</span>
+							</li>
+						</ul>
+					</div>
+
+					<div class="section info"
+						style="background: linear-gradient(135deg, #fee2e2, #fca5a5); color: #ef4444; border: 2px solid #f12a2a; border-radius: 18px; padding: 20px; margin-bottom: 24px; font-size: 1.08em;">
+						<h3 style="color: #050101; font-size: 1.08em;">!!! Все показатели рассчитываются за текущий календарный
+							месяц !!!</h3>
+					</div>
+
+				</div class="section blue"
+					style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-color: #3b82f6;">
+				<div class="section blue"
+					style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border: 2px solid #3b82f6; border-radius: 18px; padding: 28px; margin-bottom: 24px; font-size: 1.08em;">
+					<h3
+						style="background: #3b82f6; color: #fff; padding: 18px; text-align: center; border-radius: 12px 12px 0 0; font-weight: 600; font-size: 1.08em;">
+						Сумма начисления баллов по итогам месяца</h3>
+					<h4 style="color: var(--main-text); margin: 24px 0 16px 0; font-weight: 600; font-size: 1.08em;">Как считать
+						сумму начисления в зависимости от наличия задатка и выполнения опережающих показателей?</h4>
+					<table class="calc-table"
+						style="width: 100%; border-collapse: collapse; margin-top: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px var(--apple-shadow); font-size: 1.08em;">
+						<tr>
+							<th style="background: var(--main-accent); color: #fff; font-weight: 600; font-size: 1rem;">Условие</th>
+							<th style="background: var(--main-accent); color: #fff; font-weight: 600; font-size: 1rem;">% выполнения
+								опережающих показателей</th>
+							<th style="background: var(--main-accent); color: #fff; font-weight: 600; font-size: 1rem;">Сумма баллов к
+								начислению</th>
+						</tr>
+						<tr>
+							<td style="background: #fff; font-weight: 500;">Есть задаток</td>
+							<td style="background: #fff; font-weight: 500;">до 80%</td>
+							<td style="background: #fff; font-weight: 500;">500</td>
+						</tr>
+						<tr>
+							<td style="background: #fff; font-weight: 500;">Есть задаток</td>
+							<td style="background: #fff; font-weight: 500;">от 80% до 100%</td>
+							<td style="background: #fff; font-weight: 500;">1 000</td>
+						</tr>
+						<tr>
+							<td style="background: #fff; font-weight: 500;">Есть задаток</td>
+							<td style="background: #fff; font-weight: 500;">более 100%</td>
+							<td style="background: #fff; font-weight: 500;">1 500</td>
+						</tr>
+						<tr>
+							<td style="background: #fff; font-weight: 500;">Нет задатка</td>
+							<td style="background: #fff; font-weight: 500;">до 80%</td>
+							<td style="background: #fff; font-weight: 500;">0</td>
+						</tr>
+						<tr>
+							<td style="background: #fff; font-weight: 500;">Нет задатка</td>
+							<td style="background: #fff; font-weight: 500;">от 80% до 100%</td>
+							<td style="background: #fff; font-weight: 500;">200</td>
+						</tr>
+						<tr>
+							<td style="background: #fff; font-weight: 500;">Нет задатка</td>
+							<td style="background: #fff; font-weight: 500;">более 100%</td>
+							<td style="background: #fff; font-weight: 500;">500</td>
+						</tr>
+					</table>
+					<p style="color: var(--main-subtext); margin-top: 18px; text-align: center;">
+						Баллы начисляются по итогам месяца согласно наличию задатка и проценту выполнения опережающих
+						показателей.<br>
+						Максимальное значение % выполнения — 120%.
+					</p>
+				</div>
+				<div class="section notes"
+					style="background: linear-gradient(135deg, #eaf2ff, #dbeaff); border: 2px solid var(--main-accent); border-radius: 18px; padding: 20px; margin-bottom: 24px; font-size: 1.08em;">
+					<p><strong>% выполнения опережающих показателей определяется как отношение фактического значения к
+							плановому</strong></p>
+					<p>
+						<strong>
+							% выполнения опережающих показателей Не может превышать 120% — даже если фактические результаты намного
+							лучше плана, максимальное значение, которое учитывается, — это 120%. Всё, что выше, не засчитывается.<br>
+							В общем зачете и по каждому отдельному показателю — ограничение действует как на общий итоговый процент,
+							так и на каждый отдельный показатель.
+						</strong>
+					</p>
+				</div>
+				<div class="section indicators"
+					style="background: linear-gradient(135deg, #fef3c7, #fbbf24); border: 2px solid #f59e0b; border-radius: 18px; padding: 28px; margin-bottom: 0; font-size: 1.08em;">
+					<h4 style="font-size: 1.08em;">Целевые показатели — это средний процент выполнения каждого норматива,
+						приведенного в таблице ниже</h4>
+					<table class="indicators-table" style="width: 100%; border-collapse: collapse; font-size: 1.08em;">
+						<tr>
+							<td>Набор базы, шт</td>
+							<td>норма: 5</td>
+							<td>макс. 120%</td>
+						</tr>
+						<tr>
+							<td>Заявки, шт</td>
+							<td>норма: 6</td>
+							<td>макс. 120%</td>
+						</tr>
+						<tr>
+							<td>ИК, шт</td>
+							<td>норма: 1</td>
+							<td>макс. 120%</td>
+						</tr>
+						<tr>
+							<td>ЗвБ, шт</td>
+							<td>норма: 1</td>
+							<td>макс. 120%</td>
+						</tr>
+						<tr>
+							<td>Показ, шт</td>
+							<td>норма: 1</td>
+							<td>макс. 120%</td>
+						</tr>
+						<tr>
+							<td>Авито, шт</td>
+							<td>норма: 1</td>
+							<td>макс. 120%</td>
+						</tr>
+						<tr>
+							<td>Циан, шт</td>
+							<td>норма: 12</td>
+							<td>макс. 120%</td>
+						</tr>
+						<tr>
+							<td>Домклик, шт</td>
+							<td>норма: 12</td>
+							<td>макс. 120%</td>
+						</tr>
+					</table>
+					<p style="margin-top:16px; color:#222a36; font-size:0.98em;">
+						<strong style="color:#FC403A ; display:block; text-align:center;">Нормативы указаны на одного партнера.
+							<br>Показатели могут меняться и пересматриваться ежемесячно.</strong>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function openMethodology() {
+			document.getElementById('methodologyModal').style.display = 'block';
+		}
+
+		function closeModal() {
+			document.getElementById('methodologyModal').style.display = 'none';
+		}
+
+		// Закрытие при клике вне модального окна
+		window.onclick = function (event) {
+			const modal = document.getElementById('methodologyModal');
+			if (event.target == modal) {
+				modal.style.display = 'none';
+			}
+		}
+	</script>
+
+	<style>
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1000;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			backdrop-filter: blur(4px);
+			overflow-y: auto;
+		}
+
+		.modal-content {
+			background-color: var(--main-card);
+			margin: 2% auto;
+			padding: 0;
+			border-radius: 16px;
+			width: 95%;
+			max-width: 1200px;
+			max-height: 90vh;
+			overflow-y: auto;
+			position: relative;
+			box-shadow: 0 20px 60px rgba(0, 122, 255, 0.3);
+			border: 1.5px solid var(--main-accent);
+		}
+
+		.close {
+			color: var(--apple-gray-400);
+			float: right;
+			font-size: 32px;
+			font-weight: bold;
+			position: absolute;
+			right: 24px;
+			top: 20px;
+			z-index: 1001;
+			cursor: pointer;
+			transition: color 0.2s ease;
+		}
+
+		.close:hover {
+			color: var(--main-accent);
+		}
+
+		.sheet-btn {
+			background: var(--main-accent);
+			color: white;
+			border: none;
+			padding: 16px 32px;
+			border-radius: 12px;
+			cursor: pointer;
+			font-size: 18px;
+			font-weight: 600;
+			transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			box-shadow: 0 4px 20px var(--main-shadow);
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		.sheet-btn:hover {
+			background: var(--main-accent-dark);
+			transform: translateY(-2px);
+			box-shadow: 0 8px 32px var(--main-shadow-lg);
+		}
+
+		.methodology-content {
+			padding: 40px;
+			font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+			line-height: 1.6;
+			color: var(--main-text);
+		}
+
+		.section {
+			margin-bottom: 30px;
+			padding: 24px;
+			border-radius: 16px;
+			border: 1.5px solid var(--apple-gray-200);
+			box-shadow: 0 4px 20px var(--apple-shadow);
+		}
+
+		.section.yellow {
+			background: linear-gradient(135deg, #fef3c7, #fbbf24);
+			border-color: #f59e0b;
+		}
+
+		.section.yellow h2 {
+			background: var(--main-accent);
+			color: white;
+			font-weight: 700;
+			margin: -24px -24px 24px -24px;
+			padding: 24px;
+			text-align: center;
+			border-radius: 12px 12px 0 0;
+			font-size: 1.5rem;
+		}
+
+		.section.info {
+			background: linear-gradient(135deg, #eaf2ff, #dbeaff);
+			border-color: var(--main-accent);
+			text-align: center;
+		}
+
+		.section.info h3 {
+			color: var(--main-accent-dark);
+			font-weight: 700;
+			font-size: 1.2rem;
+		}
+
+		.section.green {
+			background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+			border-color: #10b981;
+		}
+
+		.section.green h3 {
+			background: #10b981;
+			color: white;
+			margin: -24px -24px 24px -24px;
+			padding: 18px;
+			text-align: center;
+			border-radius: 12px 12px 0 0;
+			font-weight: 600;
+			font-size: 1.1rem;
+		}
+
+		.section.blue {
+			background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+			border-color: #3b82f6;
+		}
+
+		.section.blue h3 {
+			background: #3b82f6;
+			color: white;
+			margin: -24px -24px 24px -24px;
+			padding: 18px;
+			text-align: center;
+			border-radius: 12px 12px 0 0;
+			font-weight: 600;
+			font-size: 1.1rem;
+		}
+
+		.section.notes {
+			background: var(--apple-gray-50);
+			border-left: 6px solid var(--main-accent);
+			border-radius: 0 16px 16px 0;
+		}
+
+		.section.indicators {
+			background: linear-gradient(135deg, #fef3c7, #fed7aa);
+			border-color: #f59e0b;
+		}
+
+		.calc-table,
+		.indicators-table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+			border-radius: 12px;
+			overflow: hidden;
+			box-shadow: 0 4px 20px var(--apple-shadow);
+		}
+
+		.calc-table th,
+		.calc-table td,
+		.indicators-table th,
+		.indicators-table td {
+			border: 1px solid var(--apple-gray-200);
+			padding: 16px 20px;
+			text-align: left;
+		}
+
+		.calc-table th {
+			background: var(--main-accent);
+			color: white;
+			font-weight: 600;
+			font-size: 1rem;
+		}
+
+		.calc-table td {
+			background: white;
+			font-weight: 500;
+		}
+
+		.indicators-table td {
+			background: white;
+		}
+
+		.indicators-table td:first-child {
+			font-weight: 600;
+			color: var(--main-text);
+		}
+
+		.indicators-table td:last-child {
+			text-align: center;
+			color: var(--main-accent-dark);
+			font-weight: 600;
+		}
+
+		h4 {
+			color: var(--main-text);
+			margin: 24px 0 16px 0;
+			font-weight: 600;
+			font-size: 1.1rem;
+		}
+
+		ol {
+			padding-left: 28px;
+		}
+
+		ol li {
+			margin-bottom: 16px;
+			color: var(--main-text);
+			font-size: 1rem;
+		}
+
+		p {
+			font-size: 1rem;
+			margin-bottom: 16px;
+		}
+
+		@media (max-width: 768px) {
+			.modal-content {
+				width: 98%;
+				margin: 1% auto;
+			}
+
+			.methodology-content {
+				padding: 20px;
+			}
+
+			.section {
+				padding: 16px;
+			}
+
+			.calc-table th,
+			.calc-table td,
+			.indicators-table td {
+				padding: 12px;
+				font-size: 0.9rem;
+			}
+		}
+	</style>
+	</div>
+
+	</div>
+	</div>
+	</section>
+
+	<div class="section-divider"></div>
+
+	<!-- ЛИДЕРЫ -->
+	<section id="leaders" class="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+		<div class="max-w-7xl mx-auto px-7">
+			<div class="text-center mb-6">
+				<h2 class="text-4xl font-bold mb-6" style="color: var(--main-text);">🏆 Лидеры месяца</h2>
+				<p class="text-xl" style="color: var(--main-subtext);">Топ партнеров по результатам месяца</p>
+			</div>
+
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+				<!-- ЛИГА 1 -->
+				<div class="apple-card p-8 text-center" style="background: #d9ead3;">
+					<div class="mb-6">
+						<h3 class="text-2xl font-bold mb-2" style="color: var(--main-text);">Лига 1</h3>
+						<p class="text-sm" style="color: var(--main-subtext);">0-3 месяца</p>
+					</div>
+					<div class="space-y-4">
+						<div class="flex justify-between items-center py-3 px-4 rounded-lg" style="background: #eaf2ff;">
+							<span class="apple-badge mr-2" style="background: #d9ead3; color: #222a36;">Топ 1</span>
+							<span class="font-medium" style="color: var(--main-text); white-space: nowrap; display: block;">
+								Рева Н.В.
+								<div class="text-sm" style="color: var(--main-accent); margin-top: 2px;">1000 баллов</div>
+							</span>
+							<div class="text-right">
+								<div class="text-lg font-bold" style="color: var(--main-accent);">61%</div>
+							</div>
+						</div>
+						<div class="flex justify-between items-center py-3 px-4 rounded-lg" style="background:#eaf2ff;">
+							<span class="apple-badge mr-2" style="background: #d9ead3; color: #222a36;">Топ 2</span>
+							<span class="font-medium" style="color: var(--main-text); white-space: nowrap; display: block;">Лохманов
+								А.М.
+								<div class="text-sm" style="color: var(--main-accent); margin-top: 2px;">500 баллов</div>
+							</span>
+							<div class="text-right">
+								<div class="text-lg font-bold" style="color: var(--main-accent);">79%</div>
+							</div>
+						</div>
+						<div class="flex justify-between items-center py-3 px-4 rounded-lg" style="background: #eaf2ff;">
+							<span class="apple-badge mr-2" style="background: #d9ead3; color: #222a36;">Топ 3</span>
+							<span class="font-medium" style="color: var(--main-text); white-space: nowrap; display: block;">Ткаченко
+								Д.М.<div class="text-sm" style="color: var(--main-accent); margin-top: 2px;">500 баллов</div></span>
+							<div class="text-right">
+								<div class="text-lg font-bold" style="color: var(--main-accent);">77%</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- ЛИГА 2 -->
+				<div class="apple-card p-8 text-center" style="background: #f6e196;">
+					<div class="mb-6">
+
+						<h3 class="text-2xl font-bold mb-2" style="color: var(--main-text);">Лига 2</h3>
+						<p class="text-sm" style="color: var(--main-subtext);">4-6 месяцев</p>
+					</div>
+					<div class="space-y-4">
+						<div class="flex justify-between items-center py-3 px-4 rounded-lg" style="background: #eaf2ff;">
+							<span class="apple-badge mr-2" style="background:#f6e196; color: #222a36;">Топ 1</span>
+							<span class="font-medium"
+								style="color: var(--main-text); white-space: nowrap; display: block;">Мирошниченко Н.М.
+								<div class="text-sm" style="color: var(--main-accent); margin-top: 2px;">1500 баллов</div>
+							</span>
+							<div class="text-right">
+								<div class="text-lg font-bold" style="color: var(--main-accent);">54%</div>
+							</div>
+						</div>
+						<div class="flex justify-between items-center py-3 px-4 rounded-lg" style="background: #eaf2ff;">
+							<span class="apple-badge mr-2" style="background:#f6e196; color: #222a36;">Топ 2</span>
+							<span class="font-medium" style="color: var(--main-text); white-space: nowrap; display: block;">Водопьянов
+								А.С.<div class="text-sm" style="color: var(--main-accent); margin-top: 2px;">500 баллов</div></span>
+							<div class="text-right">
+								<div class="text-lg font-bold" style="color: var(--main-accent);">10%</div>
+							</div>
+						</div>
+						<div class="flex justify-between items-center py-3 px-4 rounded-lg" style="background: #eaf2ff;">
+							<span class="apple-badge mr-2" style="background: #f6e196; color: #222a36;">Топ 3</span>
+							<span class="font-medium" style="color: var(--main-text); white-space: nowrap; display: block;">Фролов
+								В.В.<div class="text-sm" style="color: var(--main-accent); margin-top: 2px;">0 баллов</div></span>
+							<div class="text-right">
+								<div class="text-lg font-bold" style="color: var(--main-accent);">52%</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- ЛИГА 3 -->
+				<div class="apple-card p-8 text-center" style="background: #cfe2f3;">
+					<div class="mb-6">
+
+						<h3 class="text-2xl font-bold mb-2" style="color: var(--main-text);">Лига 3</h3>
+						<p class="text-sm" style="color: var(--main-subtext);">6+ месяцев</p>
+					</div>
+					<div class="space-y-4">
+						<div class="flex justify-between items-center py-3 px-4 rounded-lg" style="background: #eaf2ff;">
+							<span class="apple-badge mr-2" style="background: #cfe2f3; color: #222a36;">Топ 1</span>
+							<span class="font-medium" style="color: var(--main-text); white-space: nowrap; display: block;">Иванова
+								Е.В.<div class="text-sm" style="color: var(--main-accent); margin-top: 2px;">5000 баллов</div></span>
+							<div class="text-right">
+								<div class="text-lg font-bold" style="color: var(--main-accent);">85%</div>
+							</div>
+						</div>
+						<div class="flex justify-between items-center py-3 px-4 rounded-lg" style="background: #eaf2ff;">
+							<span class="apple-badge mr-2" style="background: #cfe2f3; color: #222a36;">Топ 2</span>
+							<span class="font-medium" style="color: var(--main-text); white-space: nowrap; display: block;">Коновалова
+								И.Н.<div class="text-sm" style="color: var(--main-accent); margin-top: 2px;">3000 баллов</div></span>
+							<div class="text-right">
+								<div class="text-lg font-bold" style="color: var(--main-accent);">88%</div>
+							</div>
+						</div>
+						<div class="flex justify-between items-center py-3 px-4 rounded-lg" style="background: #eaf2ff;">
+							<span class="apple-badge mr-2" style="background: #cfe2f3; color: #222a36;">Топ 3</span>
+							<span class="font-medium" style="color: var(--main-text); white-space: nowrap; display: block;">Луценко
+								И.В.<div class="text-sm" style="color: var(--main-accent); margin-top: 2px;">1000 баллов</div></span>
+							<div class="text-right">
+								<div class="text-lg font-bold" style="color: var(--main-accent);">53%</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="section-divider"></div>
+
+			<!-- КАТАЛОГ НАГРАД -->
+			<section id="catalog" class="py-20">
+				<div class="max-w-7xl mx-auto px-6">
+					<div class="text-center mb-16">
+						<div class="floating-icon mb-6">
+
+						</div>
+						<div class="flex items-center justify-center mb-8">
+						</div>
+						<h1 style="font-size: 3.5rem; font-weight: bold;">
+							Каталог призов
+						</h1>
+						<hr class="my-8 border-t-2 border-blue-200 w-1/2 mx-auto">
+						<p class="text-xl text-gray-600 max-w-3xl mx-auto">
+							Обменивай заработанные баллы на ценные призы
+						</p>
+						<p class="text-sm text-gray-500 mt-4 max-w-3xl mx-auto">
+							Набор призов и пороги баллов могут меняться. Актуальная информация — в регламенте программы/таблице.
+						</p>
+						<p class="text-xs text-gray-400 mt-2 max-w-3xl mx-auto italic">
+							<span style="color: #FC403A ;">* Изображения носят демонстрационный характер. Внешний вид, цвет, модель и
+								комплектация призов могут отличаться от представленных на фотографиях. Уточняйте у администратора
+							</span>
+						</p>
+					</div>
+				</div>
+				<!-- todo ПОДАРОЧНЫЕ СЕРТИФИКАТЫ -->
+				<div class="mb-24">
+					<h3 class="text-3xl font-bold mb-8 text-center" style="color: var(--main-text);">💳 Подарочные сертификаты -
+						подписки</h3>
+					<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+						<!--Карточка подарочный сертификат 1-->
+						<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+							<div class="relative">
+								<img src="https://i.postimg.cc/J09szw39/Whats-App-Image-2025-08-31-at-18-09-59.jpg"
+									alt="Сертификат Маркетплейсы" class="w-full h-32 object-cover">
+								<span
+									style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#1</span>
+							</div>
+							<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+								<div class="min-h-[110px] flex flex-col justify-start">
+									<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+										Маркетплейсы</h3>
+									<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+										Подарочный сертификат на покупки в популярных интернет-магазинах.</p>
+								</div>
+								<div class="mt-auto flex flex-col items-center">
+									<span class="price-display text-base font-bold mt-2" style="color: var(--main-accent);">от 500
+										баллов</span>
+									<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+										class="apple-button mt-3 flex items-center justify-center gap-2"
+										style="display:inline-flex; min-width:160px; align-items: center;">
+										<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+											<defs>
+												<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+													<stop offset="0%" style="stop-color:#2AABEE" />
+													<stop offset="100%" style="stop-color:#229ED9" />
+												</linearGradient>
+											</defs>
+											<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+											<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+											<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+											<path
+												d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+												fill="#ffffff" />
+										</svg>
+										Получить приз
+									</a>
+									</a>
+								</div>
+							</div>
+						</div>
+						<!--Карточка подарочный сертификат 2-->
+						<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+							<div class="relative">
+								<img src="https://i.postimg.cc/C1rtV36b/Whats-App-Image-2025-08-31-at-15-29-54.jpg"
+									alt="Сертификат кино-театры" class="w-full h-32 object-cover">
+								<span
+									style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#2</span>
+							</div>
+							<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+								<div class="min-h-[110px] flex flex-col justify-start">
+									<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+										Кино,
+										Театр</h3>
+									<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+										Подарочный сертификат на посещение кинотеатра.</p>
+								</div>
+								<div class="mt-auto">
+									<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+										баллов</span>
+									<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+										class="apple-button mt-3 flex items-center justify-center gap-2"
+										style="display:inline-flex; min-width:160px; align-items: center;">
+										<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+											<defs>
+												<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+													<stop offset="0%" style="stop-color:#2AABEE" />
+													<stop offset="100%" style="stop-color:#229ED9" />
+												</linearGradient>
+											</defs>
+											<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+											<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+											<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+											<path
+												d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+												fill="#ffffff" />
+										</svg>
+										Получить приз
+									</a>
+								</div>
+
+							</div>
+						</div>
+						<!--Карточка подарочный сертификат 3-->
+						<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+							<div class="relative">
+								<span
+									style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#3</span>
+								<img src="https://i.postimg.cc/4NS5pnwg/Whats-App-Image-2025-08-31-at-18-06-21.jpg"
+									alt="Сертификат подписки книжные" class="w-full h-32 object-cover">
+							</div>
+							<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+								<div class="min-h-[110px] flex flex-col justify-start">
+									<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+										Электронные книги</h3>
+									<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+										Подарочные сертификаты на подписки в книжных магазинах.</p>
+								</div>
+								<div class="mt-auto">
+									<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+										баллов</span>
+									<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+										class="apple-button mt-3 flex items-center justify-center gap-2"
+										style="display:inline-flex; min-width:160px; align-items: center;">
+										<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+											<defs>
+												<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+													<stop offset="0%" style="stop-color:#2AABEE" />
+													<stop offset="100%" style="stop-color:#229ED9" />
+												</linearGradient>
+											</defs>
+											<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+											<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+											<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+											<path
+												d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+												fill="#ffffff" />
+										</svg>
+										Получить приз
+									</a>
+								</div>
+							</div>
+						</div>
+						<!--Карточка подарочный сертификат 4-->
+						<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+							<div class="relative">
+								<img src="https://i.postimg.cc/9Q9GTbrd/Whats-App-Image-2025-08-31-at-18-08-30.jpg"
+									alt="Сертификат книжный офлайн" class="w-full h-32 object-cover">
+								<span
+									style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#4</span>
+							</div>
+							<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+								<div class="min-h-[110px] flex flex-col justify-start">
+									<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+										Книжные магазины</h3>
+									<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+										Подарочный сертификат на покупки в книжных
+										магазинах.</p>
+								</div>
+								<div class="mt-auto">
+									<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+										баллов</span>
+									<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+										class="apple-button mt-3 flex items-center justify-center gap-2"
+										style="display:inline-flex; min-width:160px; align-items: center;">
+										<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+											<defs>
+												<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+													<stop offset="0%" style="stop-color:#2AABEE" />
+													<stop offset="100%" style="stop-color:#229ED9" />
+												</linearGradient>
+											</defs>
+											<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+											<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+											<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+											<path
+												d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+												fill="#ffffff" />
+										</svg>
+										Получить приз
+									</a>
+								</div>
+							</div>
+						</div>
+						<!--Карточка подарочный сертификат 5-->
+						<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+							<div class="relative">
+								<img src="https://i.postimg.cc/7L59v50Y/Whats-App-Image-2025-08-31-at-14-37-12.jpg"
+									alt="Сертификат зоомагазин" class="w-full h-32 object-cover">
+								<span
+									style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#5</span>
+							</div>
+							<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+								<div class="min-h-[110px] flex flex-col justify-start">
+									<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+										Зоомагазин</h3>
+									<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+										Подарочный сертификат на покупки в зоомагазинах.
+									</p>
+								</div>
+								<div class="mt-auto">
+									<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+										баллов</span>
+									<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+										class="apple-button mt-3 flex items-center justify-center gap-2"
+										style="display:inline-flex; min-width:160px; align-items: center;">
+										<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+											<defs>
+												<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+													<stop offset="0%" style="stop-color:#2AABEE" />
+													<stop offset="100%" style="stop-color:#229ED9" />
+												</linearGradient>
+											</defs>
+											<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+											<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+											<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+											<path
+												d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+												fill="#ffffff" />
+										</svg>
+										Получить приз
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- todo РАЗВЛЕЧЕНИЯ И АКТИВНОСТИ -->
+					<div class="mb-24 mt-16">
+						<h3 class="text-3xl font-bold mb-8 text-center" style="color: var(--main-text);">🎯 Развлечения и
+							активности
+						</h3>
+						<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+							<!--Карточка развлечения и активности 1-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/cL5FDp63/Whats-App-Image-2025-08-31-at-16-14-18.jpg"
+										alt="Сертификат квест" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#6</span>
+								</div>
+								<div class="p-4 text-center">
+									<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+										Сертификат на
+										квест</h3>
+									<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+										Подарочный сертификат на участие в квесте.<br>
+										Сертификат которым можно оплатить квест полностью или частично.
+									</p>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold" style="color: var(--main-accent);">от 500
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка развлечения и активности 2-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/2SszZ8h9/Whats-App-Image-2025-08-31-at-16-29-59.jpg"
+										alt="Сертификат Лазертаг" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#7</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Сертификат на Лазертаг</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Подарочный сертификат на участие в Лазертаг.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка развлечения и активности 3-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/t426MXsV/Whats-App-Image-2025-09-14-at-17-15-17.jpg"
+										alt="Сертификат Каток" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#8</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Стрельба из лука</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Возможность попробовать стрельбу из лука. Обменяй на баллы сертификат и иди стрелять!
+										</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 300
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка развлечения и активности 4-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/qvRwWybS/Whats-App-Image-2025-08-31-at-17-37-13.jpg"
+										alt="Сертификат ВР" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#9</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Сертификат на VR Арену</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Сертификат на игру в VR арене
+											Сертификат которым можно оплатить игру полностью или частично.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/MKkXCSsS/Whats-App-Image-2025-08-31-at-17-45-54.jpg"
+										alt="Сертификат музей" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#10</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Сертификат на посещение музея</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Подарочный сертификат на посещение музея или выставки.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 200
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<!-- todo ОФИСНЫЕ ПРИНАДЛЕЖНОСТИ -->
+					<div class="mb-24">
+						<h3 class="text-3xl font-bold mb-8 text-center" style="color: var(--main-text);">📚 Офисные принадлежности
+						</h3>
+						<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+							<!--Карточка офисные принадлежности 1-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/L5fxXSKP/Whats-App-Image-2025-08-31-at-18-20-46.jpg" alt="органайзер"
+										class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#11</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Органайзер для стола</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Удобный органайзер для рабочего стола, который поможет поддерживать порядок.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 300
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка офисные принадлежности 2-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/c4SK2WHn/Whats-App-Image-2025-08-31-at-18-12-42.jpg"
+										alt="Подушка для стула" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#12</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Подушка для стула</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Удобная подушка для стула, которая обеспечит комфорт во время работы.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);"> от 900
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка офисные принадлежности 3-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/SNR0y2JF/Whats-App-Image-2025-08-31-at-18-16-47.jpg"
+										alt="Увлажнитель воздуха" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#13</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Увлажнитель воздуха</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Увлажнитель воздуха, который поможет поддерживать оптимальный уровень влажности в помещении.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка офисные принадлежности 4-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/qv72DrbG/Whats-App-Image-2025-08-31-at-18-22-23.jpg"
+										alt="Держатель телефона" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#14</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Держатель телефона</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Удобный держатель для телефона, который можно установить на столе.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 400
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка офисные принадлежности 5-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/TPV2rLVN/Whats-App-
+Image-2025-08-31-at-18-20-46.jpg" alt="Настольный вентилятор" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#15</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Настольный вентилятор</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Компактный настольный вентилятор для комфортного охлаждения.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- todo Прочее -->
+					<div class="mb-24">
+						<h3 class="text-3xl font-bold mb-8 text-center" style="color: var(--main-text);">🧩 Прочее
+						</h3>
+						<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+							<!--Карточка прочее 1-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/Hx2pNrkZ/Whats-App-Image-2025-08-31-at-18-49-28.jpg"
+										alt="Настольная игра" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#16</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Настольная игра</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Настольные игры в ассортименте. Для заказа конкретной игры уточняйте</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 450
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка прочее 2-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/fR8W5tk8/Whats-App-Image-2025-08-31-at-18-59-50.jpg" alt="Термокружка"
+										class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#17</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Термокружка</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Кружка, которая сохраняет напитки горячими или холодными в течение длительного времени.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);"> от 650
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка прочее 3-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/DzYrVwpg/Whats-App-Image-2025-08-31-at-19-05-50.jpg" alt="Теплый плед"
+										class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#18</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Теплый плед</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Мягкий и уютный плед, который согреет вас в холодные вечера.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 650
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка прочее 4-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/ydvwCc4G/Whats-App-Image-2025-08-31-at-19-08-48.jpg" alt="Фоторамка"
+										class=" w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#19</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Фоторамка</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Элегантная фоторамка для ваших любимых снимков в ассортименте. Для заказа конкретной уточняйте.
+										</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка прочее 5-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/SK7WsGKg/Whats-App-Image-2025-08-31-at-19-16-47.jpg"
+										alt="Арома диффузор" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#20</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Арома диффузор</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Арома диффузор для создания уютной атмосферы в вашем доме. В ассортименте Для заказа конкретного
+											аромата уточняйте</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка прочее 6-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/7hpV7Zr9/Whats-App-Image-2025-08-31-at-19-22-50.jpg"
+										alt="Набор арома свечей" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#21</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Набор арома свечей</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Набор арома свечей для создания уютной атмосферы в вашем доме. В ассортименте Для заказа
+											конкретной
+											аромата уточняйте.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка прочее 7-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/Bv9ny94z/Whats-App-Image-2025-08-31-at-19-30-22.jpg"
+										alt="Ежедневник недатированный" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#22</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Ежедневник недатированный</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Недатированный ежедневник — универсальный помощник для планирования задач.
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка прочее 8-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/Nf8CLrnq/image.jpg" alt="Визитница" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#23</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Визитница</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Визитница для хранения ваших визиток.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка прочее 9-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.ibb.co/j9Byyp7M/Chat-GPT-Image-Sept-14-2025-1.png" alt="Мотивационный ежедневник"
+										class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#24</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Мотивационный ежедневник</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Мотивационный ежедневник для планирования и достижения целей в ассортименте. Для заказа
+											конкретного
+											уточняйте. </p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 1000
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!--Карточка прочее 10-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/3xHgXqzK/Whats-App-Image-2025-08-31-at-19-46-11.jpg"
+										alt="Коврик для мыши" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#25</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Коврик для мыши</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Коврик для мыши с уникальным дизайном и комфортной поверхностью.</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">от 500
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+
+					<!-- todo СПЕЦИАЛЬНЫЕ ПРИЗЫ -->
+					<div class="mb-24 mt-16">
+						<h3 class="text-3xl font-bold mb-8 text-center" style="color: var(--main-text);">🎯 Специальные призы
+						</h3>
+						<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+							<!--Карточка специальный приз 1-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/7YD1bt7X/Chat-GPT-Image-Sept-14-2025.png"
+										alt="Коуч-сессия с директором" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#26</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Коуч-сессия с директором по персоналу</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Индивидуальная коуч-сессия с директором по персоналу.
+										</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">1000
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!--Карточка специальный приз 2-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.postimg.cc/zBHmbGmm/Chat-GPT-Image-Sept-14-2025.png" alt="Погружение в тему ИИ"
+										class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#27</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Погружение в тему ИИ в работе риелтора</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Обучающая сессия по использованию ИИ в работе риелтора.
+										</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">1000
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+							<!--Карточка специальный приз 3-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.ibb.co/5gTWvLGb/Gemini-Generated-Image.png" alt="Личное менторство от директора"
+										class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#28</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Личное менторство от директора</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											30 минут индивидуального менторства от директора.
+										</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">1000
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!--Карточка специальный приз 4-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.ibb.co/27zJWypT/Gemini-Generated-Image-3.png" alt="Сувенирная продукция Этажи"
+										class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#29</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Популярная музыкальная колонка</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Портативная колонка с голосовым помощником. Отлично подходит для прослушивания любимых треков в
+											любом месте.
+										</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">5000 - 30000
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!--Карточка специальный приз 5-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img src="https://i.ibb.co/Qvzx1K49/Gemini-Generated-Image-2.png" alt="Разбор клиентов с РОП"
+										class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#30</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Разбор клиентов с РОП</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Индивидуальный разбор клиентской базы с руководителем отдела продаж.
+										</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">1000
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- todo СУВЕНИРНАЯ ПРОДУКЦИЯ ЭТАЖИ -->
+					<div class="mb-24 mt-16">
+						<h3 class="text-3xl font-bold mb-8 text-center" style="color: var(--main-text);">🎁 Сувенирная продукция
+							Этажи</h3>
+						<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+							<!--Карточка сувенирная продукция 1-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img
+										src="https://optim.tildacdn.com/stor3461-6338-4134-a633-306535346239/-/contain/973x973/center/center/-/format/webp/57788957.jpg.webp"
+										alt="Термос" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#30</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Термос</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Термос из нержавеющей стали, 500мл. Сохраняет тепло до 12 часов в зависимости от температуры
+											окружающей среды. Упаковка: брендированный тубус.
+										</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">1791
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!--Карточка сувенирная продукция 2-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img
+										src="https://optim.tildacdn.com/stor3838-3836-4461-b936-356365343463/-/format/webp/20156860.jpg.webp"
+										alt="Кружка" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#31</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Чайная пара</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Качественная чайная пара из фарфора. Идеально подходит для офиса и дома.
+										</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">1100
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!--Карточка сувенирная продукция 3-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img
+										src="https://optim.tildacdn.com/stor6533-3436-4436-b264-373232346237/-/format/webp/33966034.jpg.webp"
+										alt="Стикерпак" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#32</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Набор стикеров</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Набор стикеров с фирменным дизайном Этажи.
+										</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">500
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!--Карточка сувенирная продукция 4-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img
+										src="https://optim.tildacdn.com/stor3039-3238-4763-a435-323863396536/-/format/webp/84389636.jpg.webp"
+										alt="Худи" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#33</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Худи флисовое</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Стильные худи с логотипом компании для работы.
+										</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">4000
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!--Карточка сувенирная продукция 5-->
+							<div class="neomorphic-card slide-in flex flex-col justify-between h-[340px]">
+								<div class="relative">
+									<img
+										src="https://optim.tildacdn.com/stor6236-3934-4036-b130-663464663239/-/format/webp/32547571.jpg.webp"
+										alt="Худи оверсайз" class="w-full h-32 object-cover">
+									<span
+										style="position: absolute; top: 8px; left: 8px; background: #e3edfb; color: #2563eb; font-weight: bold; font-size: 1rem; border-radius: 8px; padding: 2px 10px; z-index: 2; border: 1px solid #b3cfff;">#34</span>
+								</div>
+								<div class="flex flex-col flex-grow justify-between p-4 text-center h-full">
+									<div class="min-h-[110px] flex flex-col justify-start">
+										<h3 class="text-lg font-semibold text-gray-900 mb-2 min-h-[48px] flex items-center justify-center">
+											Худи оверсайз</h3>
+										<p class="text-gray-600 mb-4 leading-relaxed text-sm min-h-[48px] flex items-center justify-center">
+											Стильные оверсайз худи с логотипом компании Этажи.
+										</p>
+									</div>
+									<div class="mt-auto">
+										<span class="price-display text-lg font-bold mt-2" style="color: var(--main-accent);">5350
+
+											баллов</span>
+										<a href="https://t.me/EtagiPlay_bot" target="_blank" rel="noopener"
+											class="apple-button mt-3 flex items-center justify-center gap-2"
+											style="display:inline-flex; min-width:160px; align-items: center;">
+											<svg width="20" height="20" viewBox="0 0 240 240" fill="none" style="flex-shrink: 0;">
+												<defs>
+													<linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+														<stop offset="0%" style="stop-color:#2AABEE" />
+														<stop offset="100%" style="stop-color:#229ED9" />
+													</linearGradient>
+												</defs>
+												<circle cx="120" cy="120" r="120" fill="url(#telegramGradient)" />
+												<path d="M98 175c-3.888 0-3.227-1.468-4.568-5.17L82 132.207 170 80" fill="#C8DAEA" />
+												<path d="M98 175c3 0 4.325-1.372 6-3l16-15.558-19.958-12.035" fill="#A9C9DD" />
+												<path
+													d="M100.04 144.41l48.36 35.729c5.519 3.045 9.501 1.468 10.876-5.123l19.685-92.763c2.015-8.08-3.08-11.746-8.36-9.349l-115.59 44.571c-7.89 3.165-7.843 7.567-1.438 9.528l29.663 9.259 68.673-43.325c3.242-1.966 6.218-.91 3.776 1.258"
+													fill="#ffffff" />
+											</svg>
+											Получить приз
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- !КОНЕЦ КАТАЛОГА -->
+			<!-- ФУТЕР -->
+			<footer id="support" class="py-16">
+				<div class="max-w-6xl mx-auto px-6">
+					<div class="neomorphic p-12">
+						<div class="flex flex-col md:flex-row items-center justify-between gap-12">
+							<div class="flex flex-col items-center md:items-start">
+								<div class="floating-icon w-16 h-16 mb-4"></div>
+
+							</div>
+							<div class="flex flex-col items-center justify-center w-full text-center">
+								<h3 class="text-2xl font-bold text-gray-900 mb-6">Пожелания, вопросы, предложения</h3>
+								<div class="flex flex-row gap-6 mb-4 justify-center items-center">
+									<a href="https://wa.me/+79287683977" target="_blank" rel="noopener"
+										class="apple-button flex items-center gap-3 px-8 py-4 text-lg justify-center link-anim"
+										style="background: var(--main-accent); color: #fff !important; border-radius: 16px; box-shadow: 0 8px 24px var(--main-shadow-lg); transition: all 0.3s;">
+										<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"
+											width="28" height="28" style="width:28px;height:28px;">
+										<span class="font-semibold" style="color: #fff !important;">WhatsApp</span>
+									</a>
+									<a href="https://t.me/+79287683977" target="_blank" rel="noopener"
+										class="apple-button flex items-center gap-3 px-8 py-4 text-lg justify-center link-anim"
+										style="background: var(--main-accent); color: #fff !important; border-radius: 16px; box-shadow: 0 8px 24px var(--main-shadow-lg); transition: all 0.3s;">
+										<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram"
+											width="24" height="24" style="width:24px;height:24px;">
+										<span class="font-semibold" style="color: #fff !important;">Telegram</span>
+									</a>
+								</div>
+								<p class="text-gray-500 text-lg font-medium">Пн–Пт 9:00–18:00</p>
+							</div>
+						</div>
+						<style>
+							.link-anim {
+								position: relative;
+								transition: color 0.3s, transform 0.3s;
+							}
+
+							.link-anim::after {
+								content: '';
+								position: absolute;
+								left: 50%;
+								bottom: 0;
+								transform: translateX(-50%) scaleX(0);
+								width: 80%;
+								height: 2px;
+								background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
+								transition: transform 0.3s;
+								border-radius: 2px;
+							}
+
+							.link-anim:hover {
+								color: #007aff !important;
+								transform: translateY(-2px) scale(1.04);
+							}
+
+							.link-anim:hover::after {
+								transform: translateX(-50%) scaleX(1);
+							}
+						</style>
+					</div>
+
+					<p style="font-size:12px;color:#6b7280;line-height:1.5;margin-top:12px;">
+						Внутренняя система поощрений для партнеров АН Этажи. Обмен баллов на призы осуществляется исключительно
+						для действующих партнеров в рамках корпоративной программы мотивации. Доступ к системе имеют только
+						авторизованные участники с подтвержденным статусом партнера. Данная программа не является коммерческой
+						деятельностью и не предоставляет услуги третьим лицам.
+					</p>
+					<p style="font-size:12px;color:#6b7280;line-height:1.5;">
+						Организатор: ООО «Этажи», ИНН 7202106387, ОГРН 1027200835661, КПП 616743001 адрес:344019,
+						г.Ростов-на-Дону,
+						пр-кт Шолохова ЗД. 22
+					</p>
+					<p style="font-size:12px;color:#6b7280;line-height:1.5;">
+						Все товарные знаки, логотипы и изображения товаров принадлежат их правообладателям и используются
+						исключительно в информационных целях. Организатор программы не является производителем или
+						официальным дистрибьютором указанных брендов.
+					</p>
+					<p style="font-size:12px;color:#6b7280;line-height:1.5;">
+						Доступ к системе предоставляется только действующим партнерам АН Этажи после авторизации. Если вы не
+						являетесь партнером компании или не прошли авторизацию, использование данной платформы не допускается.
+						Рекомендуем немедленно закрыть сайт, если вы получили доступ по ошибке или не являетесь участником
+						программы.
+					</p>
+				</div>
+		</div>
+		</footer>
+
+		<script>
+			// Плавная прокрутка
+			function scrollToSection(sectionId) {
+				document.getElementById(sectionId).scrollIntoView({
+					behavior: 'smooth',
+					block: 'start'
+				});
+			}
+
+			// Функция раскрытия таблицы
+			function toggleTable() {
+				const tableContainer = document.getElementById('table-container');
+				const tableLink = document.getElementById('table-link');
+				const toggleArrow = document.getElementById('toggle-arrow');
+				const toggleText = document.getElementById('toggle-text');
+
+				const isExpanded = tableContainer.classList.contains('expanded');
+
+				if (isExpanded) {
+					tableContainer.classList.remove('expanded');
+					tableContainer.style.maxHeight = '0';
+					tableContainer.style.height = '0';
+					tableContainer.style.opacity = '0';
+
+					if (tableLink) {
+						tableLink.style.maxHeight = '0';
+						tableLink.style.opacity = '0';
+					}
+
+					toggleArrow.style.transform = 'rotate(0deg)';
+					toggleText.textContent = 'Нажми, чтобы посмотреть методику расчета начислений';
+				} else {
+					tableContainer.classList.add('expanded');
+					tableContainer.style.maxHeight = '1020px';
+					tableContainer.style.height = '1020px';
+					tableContainer.style.opacity = '1';
+
+					if (tableLink) {
+						tableLink.style.maxHeight = '100px';
+						tableLink.style.opacity = '1';
+					}
+
+					toggleArrow.style.transform = 'rotate(180deg)';
+					if (toggleText.textContent !== 'Скрыть методику расчета начислений') {
+						toggleText.textContent = 'Скрыть методику расчета начислений';
+					}
+				}
+			}
+
+			// Анимация появления
+			document.addEventListener('DOMContentLoaded', function () {
+				const cards = document.querySelectorAll('.neomorphic-card');
+
+				const observer = new IntersectionObserver(function (entries) {
+					entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('slide-in');
+						}
+					});
+				});
+
+				cards.forEach((card, index) => {
+					card.style.animationDelay = `${index * 0.1}s`;
+					observer.observe(card);
+				});
+			});
+
+			// Маскированные ссылки
+			const encodedSheet1 = 'aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMWRBR1JGZFBjZXJIaDktTnp3eEI4UVVRbmRxZGN6WjF0R0g3NEY0MEg1WmsvZWRpdD9naWQ9MTQxNTg5ODI0I3NpZ2xlPXRydWUmd2lkZ2V0PXRydWU=';
+			const encodedSheet2 = 'aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMUJJY1BRWkV6b0lPbmNuNHo3V1ZTUUk1UDhIY3NWUllnNjh5WklMMnlxL2VkaXQ/Z2lkPTEyOTYwOTU0NDIjZ2lkPTEyOTYwOTU0Mg==';
+
+			// Декодирование
+			const sheetUrl1 = atob(encodedSheet1);
+			const sheetUrl2 = atob(encodedSheet2);
+
+			// Подстановка в iframe
+			document.getElementById('sheetFrame1').src = sheetUrl1;
+			document.getElementById('sheetFrame2').src = sheetUrl2;
+
+			// Маскированная ссылка
+			document.getElementById('sheetLink1').href = sheetUrl1;
+		</script>
+
+		<iframe id="sheetFrame1" style="width:100%;height:400px;"></iframe>
+		<iframe id="sheetFrame2" style="width:100%;height:400px;"></iframe>
+</body>
+
+</html>
