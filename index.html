@@ -4,13 +4,13 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Этажи Play — Система мотивации риелторов</title>
-		
+
 		<!-- Защита от копирования и кэширования -->
 		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 		<meta http-equiv="Pragma" content="no-cache" />
 		<meta http-equiv="Expires" content="0" />
 		<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
-		
+
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
 		<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -43,7 +43,7 @@
 				--apple-gray-900: #111827;
 				--apple-shadow: rgba(17, 24, 39, 0.08);
 			}
-
+привет 
 			body {
 				background: var(--main-bg);
 				color: var(--main-text);
@@ -514,58 +514,75 @@
 				box-shadow: 0 3px 12px rgba(37, 99, 235, 0.4);
 			}
 
-			/* === Адаптация под мобильные === */
-			/* Универсальная сетка призов: 2 колонки на телефонах */
+			/* === Плотная равномерная сетка каталога (адаптив) === */
 			.grid-prizes {
 				display: grid;
-				grid-template-columns: repeat(2, minmax(0, 1fr));
-				gap: 1.25rem;
-				/* примерно gap-6 из Tailwind */
+				/* auto-fit растягивает элементы чтобы занять всю ширину */
+				grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+				column-gap: 0.45rem; /* минимальные горизонтальные интервалы */
+				row-gap: 0.65rem; /* вертикальные чуть больше для воздуха */
+				align-items: stretch;
 			}
 
-			@media (max-width: 430px) {
+			/* Убираем фиксированную ширину карточек в каталоге для растяжения */
+			.grid-prizes .neomorphic-card {
+				max-width: 100%;
+				border-radius: 20px;
+			}
+
+			.grid-prizes .neomorphic-card img {
+				height: 120px;
+			}
+
+			/* Уплотнение внутреннего контента в каталоге */
+			.grid-prizes .card-content {
+				padding: 12px 12px 14px;
+			}
+
+			.grid-prizes .card-content h3 {
+				font-size: 0.9rem;
+				min-height: 38px;
+			}
+
+			.grid-prizes .card-content p {
+				font-size: 0.66rem;
+				line-height: 1rem;
+				min-height: 36px;
+			}
+
+			.grid-prizes .price-display {
+				font-size: 0.85rem;
+				margin-top: 2px;
+			}
+
+			.grid-prizes .apple-button {
+				width: 100%;
+				padding: 9px 12px;
+				font-size: 0.72rem;
+				border-radius: 22px;
+			}
+
+			.grid-prizes .card-badge {
+				font-size: 0.65rem;
+				padding: 4px 8px 5px;
+			}
+
+			@media (max-width: 480px) {
 				.grid-prizes {
-					gap: 0.9rem;
+					grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+					column-gap: 0.35rem;
+					row-gap: 0.55rem;
 				}
-
-				.neomorphic-card {
-					max-width: 100%;
-					border-radius: 20px;
+				.grid-prizes .neomorphic-card img {
+					height: 110px;
 				}
+			}
 
-				.neomorphic-card img {
-					height: 118px;
-				}
-
-				.card-content {
-					padding: 14px 12px 16px;
-				}
-
-				.card-content h3 {
-					font-size: 0.95rem;
-					min-height: 40px;
-				}
-
-				.card-content p {
-					font-size: 0.66rem;
-					line-height: 1.05rem;
-					min-height: 38px;
-				}
-
-				.price-display {
-					font-size: 0.9rem;
-				}
-
-				.apple-button {
-					width: 100%;
-					padding: 10px 14px;
-					font-size: 0.78rem;
-					border-radius: 24px;
-				}
-
-				.card-badge {
-					font-size: 0.7rem;
-					padding: 4px 9px 5px;
+			@media (min-width: 1400px) {
+				.grid-prizes {
+					grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+					column-gap: 0.5rem;
+					row-gap: 0.7rem;
 				}
 			}
 
@@ -754,13 +771,15 @@
 				// Мониторинг изменения размера окна (может указывать на открытие DevTools)
 				let devtools = {
 					open: false,
-					orientation: null
+					orientation: null,
 				};
 
 				const threshold = 160;
 				setInterval(() => {
-					if (window.outerHeight - window.innerHeight > threshold || 
-						window.outerWidth - window.innerWidth > threshold) {
+					if (
+						window.outerHeight - window.innerHeight > threshold ||
+						window.outerWidth - window.innerWidth > threshold
+					) {
 						if (!devtools.open) {
 							devtools.open = true;
 							console.clear();
@@ -776,7 +795,7 @@
 				Object.defineProperty(window, 'console', {
 					value: console,
 					writable: false,
-					configurable: false
+					configurable: false,
 				});
 			});
 
@@ -919,7 +938,6 @@
 				}
 			}
 		</script>
-
 		<!-- Приветственное модальное окно -->
 		<div id="welcomeModal" class="modal" style="display: none">
 			<div class="modal-content">
@@ -958,7 +976,6 @@
 							></path>
 						</svg>
 					</div>
-
 					<h3 style="color: var(--main-text); margin-bottom: 12px; font-size: 20px; font-weight: 600">
 						Закрытая корпоративная бонусная программа исключительно для партнеров АН Этажи.
 					</h3>
@@ -2049,7 +2066,7 @@
 									</div>
 								</span>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">20%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">22%</div>
 								</div>
 							</div>
 							<div
@@ -2066,7 +2083,7 @@
 									</div>
 								</span>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">29%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">63%</div>
 								</div>
 							</div>
 							<div
@@ -2077,13 +2094,13 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block"
-									>Меркушева О.В.
+									>Ермолаева Е.В.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
-										0 баллов
+										500 баллов
 									</div>
 								</span>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">52%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">17%</div>
 								</div>
 							</div>
 						</div>
@@ -2111,7 +2128,7 @@
 									</div>
 								</span>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">28%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">56%</div>
 								</div>
 								<i class="ri-h-1"></i>
 							</div>
@@ -2123,13 +2140,13 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block"
-									>Водопьянов А.С.
+									>Савченков А.А.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
 										500 баллов
 									</div></span
 								>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">19%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">27%</div>
 								</div>
 							</div>
 							<div
@@ -2140,13 +2157,13 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block"
-									>Савченков А.А.
+									>Водопьянов А.С.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
 										500 баллов
 									</div>
 								</span>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">6%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">8%</div>
 								</div>
 							</div>
 						</div>
@@ -2168,15 +2185,15 @@
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block"
 								>
-									Мнакацаканян Р.А.
+									Иванова Е.В.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
-										1500 баллов
+										2000 баллов
 									</div>
 								</div>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">59%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">87%</div>
 								</div>
-								9
+								
 							</div>
 							<div
 								class="flex justify-between items-center py-3 px-4 rounded-lg"
@@ -2187,13 +2204,13 @@
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block"
 								>
-									Иванова С.Н.
+									Мнацаканян Р.А.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
-										1000 баллов
+										1500 баллов
 									</div>
 								</div>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">20%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">75%</div>
 								</div>
 							</div>
 							<div
@@ -2204,13 +2221,13 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block"
-									>Назикян М.Ю.
+									>Трифонова Н.П.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
 										1000 баллов
 									</div></span
 								>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">7%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">70%</div>
 								</div>
 							</div>
 						</div>
