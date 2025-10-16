@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 	<head>
 		<meta charset="UTF-8" />
@@ -16,8 +16,8 @@
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 			* {
-				font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', system-ui,
-					sans-serif;
+				font-family:
+					-apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
 				-webkit-font-smoothing: antialiased;
 				-moz-osx-font-smoothing: grayscale;
 			}
@@ -286,7 +286,9 @@
 
 			.accent-button:active {
 				transform: translateY(0);
-				box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+				box-shadow:
+					4px 4px 8px var(--shadow-dark),
+					-4px -4px 8px var(--shadow-light);
 			}
 
 			.price-display {
@@ -306,7 +308,9 @@
 				border-radius: 12px;
 				font-size: 12px;
 				font-weight: 500;
-				box-shadow: 3px 3px 6px rgba(108, 92, 231, 0.3), -3px -3px 6px rgba(255, 255, 255, 0.1);
+				box-shadow:
+					3px 3px 6px rgba(108, 92, 231, 0.3),
+					-3px -3px 6px rgba(255, 255, 255, 0.1);
 			}
 
 			.floating-icon {
@@ -314,7 +318,9 @@
 				width: 60px;
 				height: 60px;
 				border-radius: 50%;
-				box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+				box-shadow:
+					8px 8px 16px var(--shadow-dark),
+					-8px -8px 16px var(--shadow-light);
 				border: 1px solid rgba(255, 255, 255, 0.1);
 				display: flex;
 				align-items: center;
@@ -331,7 +337,9 @@
 			.table-container-neo {
 				background: var(--bg-card);
 				border-radius: 25px;
-				box-shadow: inset 8px 8px 16px var(--shadow-dark), inset -8px -8px 16px var(--shadow-light);
+				box-shadow:
+					inset 8px 8px 16px var(--shadow-dark),
+					inset -8px -8px 16px var(--shadow-light);
 				border: 1px solid rgba(0, 212, 170, 0.3);
 				overflow: visible;
 				padding: 20px;
@@ -358,11 +366,15 @@
 
 			@media (max-width: 768px) {
 				.neomorphic {
-					box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+					box-shadow:
+						6px 6px 12px var(--shadow-dark),
+						-6px -6px 12px var(--shadow-light);
 				}
 
 				.neomorphic-card {
-					box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+					box-shadow:
+						8px 8px 16px var(--shadow-dark),
+						-8px -8px 16px var(--shadow-light);
 				}
 			}
 
@@ -396,8 +408,13 @@
 				background: #ffffff;
 				border-radius: 24px;
 				border: 1px solid rgba(0, 0, 0, 0.06);
-				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.08);
-				transition: box-shadow 0.35s ease, transform 0.35s ease, filter 0.35s ease;
+				box-shadow:
+					0 2px 4px rgba(0, 0, 0, 0.04),
+					0 8px 24px rgba(0, 0, 0, 0.08);
+				transition:
+					box-shadow 0.35s ease,
+					transform 0.35s ease,
+					filter 0.35s ease;
 				overflow: hidden;
 				max-width: 300px;
 				margin: 0 auto;
@@ -409,7 +426,9 @@
 			}
 
 			.neomorphic-card:hover {
-				box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06), 0 16px 36px rgba(0, 0, 0, 0.12);
+				box-shadow:
+					0 4px 10px rgba(0, 0, 0, 0.06),
+					0 16px 36px rgba(0, 0, 0, 0.12);
 				transform: translateY(-6px);
 				filter: brightness(1.03);
 				z-index: 3;
@@ -417,7 +436,9 @@
 
 			.neomorphic-card img {
 				border-radius: 20px 20px 12px 12px;
-				transition: transform 0.5s ease, filter 0.4s ease;
+				transition:
+					transform 0.5s ease,
+					filter 0.4s ease;
 				width: 100%;
 				height: 140px;
 				object-fit: cover;
@@ -496,10 +517,15 @@
 				font-size: 0.85rem;
 				padding: 12px 22px;
 				border-radius: 30px;
-				box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3), 0 2px 4px rgba(37, 99, 235, 0.4) inset;
+				box-shadow:
+					0 4px 14px rgba(37, 99, 235, 0.3),
+					0 2px 4px rgba(37, 99, 235, 0.4) inset;
 				position: relative;
 				overflow: hidden;
-				transition: box-shadow 0.35s ease, transform 0.35s ease, background 0.35s ease;
+				transition:
+					box-shadow 0.35s ease,
+					transform 0.35s ease,
+					background 0.35s ease;
 			}
 
 			.apple-button:hover {
@@ -513,40 +539,46 @@
 				box-shadow: 0 3px 12px rgba(37, 99, 235, 0.4);
 			}
 
-			/* === Плотная равномерная сетка каталога (адаптив) === */
+			/* === Фиксированная сетка каталога с постоянным размером карточек === */
 			.grid-prizes {
 				display: grid;
-				/* auto-fit растягивает элементы чтобы занять всю ширину */
-				grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-				column-gap: 0.45rem; /* минимальные горизонтальные интервалы */
-				row-gap: 0.65rem; /* вертикальные чуть больше для воздуха */
+				/* 5 колонок на десктопе */
+				grid-template-columns: repeat(5, 1fr);
+				column-gap: 0.8rem;
+				row-gap: 0.8rem;
+				justify-content: center;
+				justify-items: center;
 				align-items: stretch;
+				margin: 0 auto;
+				max-width: 1400px;
+				padding: 0 1rem;
 			}
 
-			/* Убираем фиксированную ширину карточек в каталоге для растяжения */
+			/* Фиксируем ширину карточек в каталоге */
 			.grid-prizes .neomorphic-card {
-				max-width: 100%;
+				width: 100%;
+				max-width: 280px;
 				border-radius: 20px;
 			}
 
 			.grid-prizes .neomorphic-card img {
-				height: 110px;
+				height: 120px;
 			}
 
-			/* Уплотнение внутреннего контента в каталоге */
+			/* Стандартное содержимое карточек каталога */
 			.grid-prizes .card-content {
-				padding: 12px 12px 14px;
+				padding: 16px 14px 18px;
 			}
 
 			.grid-prizes .card-content h3 {
-				font-size: 0.9rem;
-				min-height: 38px;
+				font-size: 0.95rem;
+				min-height: 40px;
 			}
 
 			.grid-prizes .card-content p {
-				font-size: 0.66rem;
-				line-height: 1rem;
-				min-height: 36px;
+				font-size: 0.75rem;
+				line-height: 1.1rem;
+				min-height: 38px;
 			}
 
 			.grid-prizes .price-display {
@@ -566,36 +598,33 @@
 				padding: 4px 8px 5px;
 			}
 
+			@media (max-width: 768px) {
+				.grid-prizes {
+					grid-template-columns: repeat(3, 1fr);
+					column-gap: 0.6rem;
+					row-gap: 0.6rem;
+				}
+				.grid-prizes .neomorphic-card {
+					width: 100%;
+					max-width: 250px;
+				}
+				.grid-prizes .neomorphic-card img {
+					height: 110px;
+				}
+			}
+
 			@media (max-width: 480px) {
 				.grid-prizes {
-					grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-					column-gap: 0.35rem;
-					row-gap: 0.55rem;
+					grid-template-columns: repeat(2, 1fr);
+					column-gap: 0.4rem;
+					row-gap: 0.4rem;
+				}
+				.grid-prizes .neomorphic-card {
+					width: 100%;
+					max-width: 200px;
 				}
 				.grid-prizes .neomorphic-card img {
 					height: 100px;
-				}
-			}
-
-			@media (min-width: 1400px) {
-				.grid-prizes {
-					grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-					column-gap: 0.5rem;
-					row-gap: 0.7rem;
-				}
-			}
-
-			@media (min-width: 640px) {
-				/* sm: 3 колонки */
-				.grid-prizes {
-					grid-template-columns: repeat(3, minmax(0, 1fr));
-				}
-			}
-
-			@media (min-width: 1024px) {
-				/* lg: 5 колонок */
-				.grid-prizes {
-					grid-template-columns: repeat(5, minmax(0, 1fr));
 				}
 			}
 
@@ -1042,8 +1071,14 @@
 								background: rgba(247, 250, 255, 0.7);
 								box-shadow: 0 8px 32px rgba(0, 122, 255, 0.12);
 								border: 1.5px solid #b3cfff;
-								font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI',
-									system-ui, sans-serif;
+								font-family:
+									'Inter',
+									-apple-system,
+									BlinkMacSystemFont,
+									'SF Pro Display',
+									'Segoe UI',
+									system-ui,
+									sans-serif;
 							"
 						>
 							<span class="text-xl font-extrabold text-blue-700 tracking-wide"> Достижения </span>
@@ -1056,8 +1091,14 @@
 								background: rgba(247, 250, 255, 0.7);
 								box-shadow: 0 8px 32px rgba(0, 122, 255, 0.12);
 								border: 1.5px solid #b3cfff;
-								font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI',
-									system-ui, sans-serif;
+								font-family:
+									'Inter',
+									-apple-system,
+									BlinkMacSystemFont,
+									'SF Pro Display',
+									'Segoe UI',
+									system-ui,
+									sans-serif;
 							"
 						>
 							<span class="text-xl font-extrabold text-blue-700 tracking-wide"> Призы </span>
@@ -1070,8 +1111,14 @@
 								background: rgba(247, 250, 255, 0.7);
 								box-shadow: 0 8px 32px rgba(0, 122, 255, 0.12);
 								border: 1.5px solid #b3cfff;
-								font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI',
-									system-ui, sans-serif;
+								font-family:
+									'Inter',
+									-apple-system,
+									BlinkMacSystemFont,
+									'SF Pro Display',
+									'Segoe UI',
+									system-ui,
+									sans-serif;
 							"
 						>
 							<span class="text-xl font-extrabold text-blue-700 tracking-wide"> Связаться </span>
@@ -1102,8 +1149,14 @@
 								background: rgba(254, 242, 242, 0.8);
 								box-shadow: 0 8px 32px rgba(239, 68, 68, 0.15);
 								border: 1.5px solid #fca5a5;
-								font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI',
-									system-ui, sans-serif;
+								font-family:
+									'Inter',
+									-apple-system,
+									BlinkMacSystemFont,
+									'SF Pro Display',
+									'Segoe UI',
+									system-ui,
+									sans-serif;
 								position: relative;
 								overflow: hidden;
 							"
@@ -1130,7 +1183,9 @@
 				.animated-nav {
 					position: relative;
 					overflow: hidden;
-					transition: box-shadow 0.3s, transform 0.3s;
+					transition:
+						box-shadow 0.3s,
+						transform 0.3s;
 				}
 
 				.animated-nav::before {
@@ -1148,7 +1203,9 @@
 				}
 
 				.animated-nav:hover {
-					box-shadow: 0 12px 36px rgba(0, 122, 255, 0.18), 0 2px 12px #6366f1;
+					box-shadow:
+						0 12px 36px rgba(0, 122, 255, 0.18),
+						0 2px 12px #6366f1;
 					transform: translateY(-2px) scale(1.04);
 				}
 
@@ -1159,7 +1216,9 @@
 				.animated-nav span {
 					position: relative;
 					z-index: 2;
-					transition: letter-spacing 0.3s, color 0.3s;
+					transition:
+						letter-spacing 0.3s,
+						color 0.3s;
 				}
 
 				.animated-nav:hover span {
@@ -1174,7 +1233,9 @@
 				}
 
 				#logoutButton:hover {
-					box-shadow: 0 12px 36px rgba(220, 38, 38, 0.25), 0 2px 12px rgba(185, 28, 28, 0.3);
+					box-shadow:
+						0 12px 36px rgba(220, 38, 38, 0.25),
+						0 2px 12px rgba(185, 28, 28, 0.3);
 					transform: translateY(-2px) scale(1.05);
 					background: rgba(254, 242, 242, 0.9) !important;
 				}
@@ -1202,7 +1263,9 @@
 				.animated-nav {
 					position: relative;
 					overflow: hidden;
-					transition: box-shadow 0.3s, transform 0.3s;
+					transition:
+						box-shadow 0.3s,
+						transform 0.3s;
 				}
 
 				.animated-nav::before {
@@ -1220,7 +1283,9 @@
 				}
 
 				.animated-nav:hover {
-					box-shadow: 0 12px 36px rgba(0, 122, 255, 0.18), 0 2px 12px #6366f1;
+					box-shadow:
+						0 12px 36px rgba(0, 122, 255, 0.18),
+						0 2px 12px #6366f1;
 					transform: translateY(-2px) scale(1.04);
 				}
 
@@ -1231,7 +1296,9 @@
 				.animated-nav span {
 					position: relative;
 					z-index: 2;
-					transition: letter-spacing 0.3s, color 0.3s;
+					transition:
+						letter-spacing 0.3s,
+						color 0.3s;
 				}
 
 				.animated-nav:hover span {
@@ -1241,7 +1308,9 @@
 
 				/* Специальные стили для кнопки выхода */
 				#logoutButton:hover {
-					box-shadow: 0 12px 36px rgba(220, 38, 38, 0.25), 0 2px 12px rgba(185, 28, 28, 0.3);
+					box-shadow:
+						0 12px 36px rgba(220, 38, 38, 0.25),
+						0 2px 12px rgba(185, 28, 28, 0.3);
 					transform: translateY(-2px) scale(1.05);
 					background: rgba(254, 242, 242, 0.9) !important;
 				}
@@ -1367,7 +1436,13 @@
 					color: #222a36;
 					font-weight: 700;
 					letter-spacing: 0.02em;
-					font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui,
+					font-family:
+						'Inter',
+						-apple-system,
+						BlinkMacSystemFont,
+						'SF Pro Display',
+						'Segoe UI',
+						system-ui,
 						sans-serif;
 				"
 			>
@@ -1855,8 +1930,8 @@
 
 				.methodology-content {
 					padding: 40px;
-					font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', system-ui,
-						sans-serif;
+					font-family:
+						-apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
 					line-height: 1.6;
 					color: var(--main-text);
 				}
@@ -2065,7 +2140,7 @@
 									</div>
 								</span>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">85%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">90%</div>
 								</div>
 							</div>
 							<div
@@ -2076,13 +2151,13 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block"
-									>Фалько А.А.
+									>Иввахненко А.Д.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
-										500 баллов
+										1000 баллов
 									</div>
 								</span>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">48%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">81%</div>
 								</div>
 							</div>
 							<div
@@ -2093,19 +2168,19 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block"
-									>Ивахненко А.Д.
+									>Крагель А.А.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
 										500 баллов
 									</div>
 								</span>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">44%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">4%</div>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<!--ЛИГА 2-->
+					<!--⁡⁣⁢⁡⁣⁢⁣ЛИГА 2⁡-->
 
 					<div class="apple-card p-8 text-center" style="background: #f6e196">
 						<div class="mb-6">
@@ -2123,11 +2198,11 @@
 									style="color: var(--main-text); white-space: nowrap; display: block"
 									>Фадеева О.В.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
-										1000 баллов
+										1500 баллов
 									</div>
 								</span>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">97%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">115%</div>
 								</div>
 								<i class="ri-h-1"></i>
 							</div>
@@ -2139,13 +2214,13 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block"
-									>Самойленко В.А.
+									>Суярова В.А.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
-										500 баллов
+										1000 баллов
 									</div></span
 								>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">69%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">47%</div>
 								</div>
 							</div>
 							<div
@@ -2156,19 +2231,19 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block"
-									>Савченков А.А.
+									>Самойленко В.А.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
 										500 баллов
 									</div>
 								</span>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">44%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">74%</div>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<!--ЛИГА 3-->
+					<!--⁡⁣⁢⁣ЛИГА 3⁡-->
 					<div class="apple-card p-8 text-center" style="background: #cfe2f3">
 						<div class="mb-6">
 							<h3 class="text-2xl font-bold mb-2" style="color: var(--main-text)">Лига 3</h3>
@@ -2202,7 +2277,7 @@
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block"
 								>
-									Мнацаканян Р.А.
+									Рудакова Е.О.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
 										3000 баллов
 									</div>
@@ -2219,13 +2294,13 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block"
-									>Рудакова Е.В.
+									>Мнацаканян Р.А.
 									<div class="text-sm" style="color: var(--main-accent); margin-top: 2px">
-										1500 баллов
+										3000 баллов
 									</div></span
 								>
 								<div class="text-right">
-									<div class="text-lg font-bold" style="color: var(--main-accent)">72%</div>
+									<div class="text-lg font-bold" style="color: var(--main-accent)">83%</div>
 								</div>
 							</div>
 						</div>
@@ -2371,9 +2446,13 @@
 						.affordable-glow {
 							outline: 2px solid #6366f1;
 							outline-offset: 2px;
-							box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15), 0 4px 18px -2px rgba(60, 99, 225, 0.25) !important;
+							box-shadow:
+								0 0 0 4px rgba(99, 102, 241, 0.15),
+								0 4px 18px -2px rgba(60, 99, 225, 0.25) !important;
 							position: relative;
-							transition: box-shadow 0.3s, transform 0.3s;
+							transition:
+								box-shadow 0.3s,
+								transform 0.3s;
 						}
 
 						.affordable-glow::after {
@@ -6945,7 +7024,9 @@ Image-2025-08-31-at-18-20-46.jpg"
 					<style>
 						.link-anim {
 							position: relative;
-							transition: color 0.3s, transform 0.3s;
+							transition:
+								color 0.3s,
+								transform 0.3s;
 						}
 
 						.link-anim::after {
