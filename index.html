@@ -689,10 +689,163 @@
 				background: var(--main-accent-dark);
 				transform: translateY(-1px);
 			}
+
+			/* Новогоднее оформление лидерборда */
+
+			.santa-hat-decoration {
+				position: absolute;
+				top: -100px;
+				left: -70px;
+				width: 220px;
+				height: 220px;
+				background: url('Шапка сантаклауса.png') no-repeat center;
+				background-size: contain;
+				z-index: 11;
+				transform: rotate(-15deg);
+			}
+
+			.snowman-decoration {
+				position: absolute;
+				bottom: -50px;
+				right: -40px;
+				width: 200px;
+				height: 200px;
+				background: url('Снеговик.png') no-repeat center;
+				background-size: contain;
+				z-index: 11;
+			}
+
+			/* Угловые гирлянды */
+			.corner-garland-left {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 300px;
+				height: 200px;
+				background: url('гирлянда левый угол.png') no-repeat center;
+				background-size: contain;
+				z-index: 1000;
+				pointer-events: none;
+			}
+
+			.corner-garland-right {
+				position: fixed;
+				top: 0;
+				right: 0;
+				width: 300px;
+				height: 200px;
+				background: url('гирлянда правый угол.png') no-repeat center;
+				background-size: contain;
+				z-index: 1000;
+				pointer-events: none;
+			}
+
+			/* Хвоя над методологией */
+			.methodology-garland {
+				position: absolute;
+				top: -30px;
+				left: 50%;
+				transform: translateX(-50%);
+				width: 520px;
+				height: 80px;
+				background: url('хвоя над методологией.png') no-repeat center;
+				background-size: contain;
+				z-index: 10;
+				pointer-events: none;
+			}
+
+			/* Сугробы под навигационными элементами */
+			.nav-snowdrift {
+				position: absolute;
+				top: -35px;
+				left: -15px;
+				right: -15px;
+				width: calc(100% + 30px);
+				height: 80px;
+				background: url('сугроб.png') no-repeat center top;
+				background-size: 100% 100%;
+				z-index: 30;
+				pointer-events: none;
+				opacity: 1;
+			}
+
+			.nav-btn {
+				position: relative;
+			}
+
+			#userInfo {
+				position: relative;
+			}
+
+			.nav-btn {
+				position: relative;
+			}
+
+			#userInfo {
+				position: relative;
+			}
+
+			#leaders {
+				position: relative;
+				padding-top: 40px;
+			}
+
+			.leaders-grid {
+				position: relative;
+			}
+
+			/* Новогодние эффекты */
+			.snowfall {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				pointer-events: none;
+				z-index: 9999;
+				overflow: hidden;
+			}
+
+			.snowflake {
+				position: absolute;
+				width: 8px;
+				height: 8px;
+				background: #fff;
+				border-radius: 50%;
+				animation: fall linear infinite;
+				box-shadow:
+					0 0 10px rgba(255, 255, 255, 0.8),
+					0 0 20px rgba(255, 255, 255, 0.6),
+					0 0 30px rgba(200, 230, 255, 0.4);
+				opacity: 0.9;
+			}
+
+			@keyframes fall {
+				0% {
+					transform: translateY(-100vh) rotate(0deg);
+					opacity: 1;
+				}
+				100% {
+					transform: translateY(100vh) rotate(720deg);
+					opacity: 0.9;
+				}
+			}
+
+
+
+
+
+
+
 		</style>
 	</head>
 
 	<body>
+		<!-- Новогодние украшения -->
+		<div class="snowfall" id="snowfall"></div>
+		<div class="corner-garland-left"></div>
+		<div class="corner-garland-right"></div>
+
 		<!-- Скрипт проверки авторизации -->
 		<script>
 			// Защита от копирования контента
@@ -1028,12 +1181,11 @@
 			<div class="max-w-6xl mx-auto px-6 py-4">
 				<div class="flex justify-between items-center nav-container">
 					<div class="flex items-center">
-						<img
-							src="https://i.postimg.cc/zGjfVHdx/image.png"
-							alt="Rewards Hub Logo"
-							class="h-20 transition-all duration-300 ease-in-out transform hover:scale-110 hover:brightness-105 hover:drop-shadow-md"
-						/>
-					</div>
+				<img
+					src="https://i.postimg.cc/zGjfVHdx/image.png"
+					alt="Rewards Hub Logo"
+					class="h-20 transition-all duration-300 ease-in-out transform hover:scale-110 hover:brightness-105 hover:drop-shadow-md"
+				/>
 
 					<!-- Центральные кнопки навигации -->
 					<div class="flex space-x-4 nav-links" aria-label="Основная навигация">
@@ -1051,6 +1203,7 @@
 							"
 						>
 							<span class="text-xl font-extrabold text-blue-700 tracking-wide"> Достижения </span>
+							<div class="nav-snowdrift"></div>
 						</a>
 						<a
 							href="#catalog"
@@ -1065,6 +1218,7 @@
 							"
 						>
 							<span class="text-xl font-extrabold text-blue-700 tracking-wide"> Призы </span>
+							<div class="nav-snowdrift"></div>
 						</a>
 						<a
 							href="#support"
@@ -1079,6 +1233,7 @@
 							"
 						>
 							<span class="text-xl font-extrabold text-blue-700 tracking-wide"> Связаться </span>
+							<div class="nav-snowdrift"></div>
 						</a>
 					</div>
 
@@ -1096,6 +1251,7 @@
 							"
 						>
 							<!-- Информация о пользователе загружается через JS -->
+							<div class="nav-snowdrift"></div>
 						</div>
 						<button
 							id="logoutButton"
@@ -1397,7 +1553,8 @@
 		<div class="section-divider"></div>
 
 		<div class="w-full mx-auto">
-			<div class="text-center mb-12">
+			<div class="text-center mb-12" style="position: relative;">
+				<div class="methodology-garland"></div>
 				<button onclick="openMethodology()" class="sheet-btn apple-button">
 					📊 Методология расчета и правила начисления баллов
 				</button>
@@ -2046,9 +2203,10 @@
 					<p class="text-xl" style="color: var(--main-subtext)">Текущие достижения лидеров команды</p>
 				</div>
 
-				<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-12 leaders-grid">
 					<!-- ⁡⁣⁢⁣ЛИГА 1⁡ -->
-					<div class="apple-card p-8 text-center" style="background: #d9ead3">
+					<div class="apple-card p-8 text-center" style="background: #d9ead3; position: relative;">
+						<div class="santa-hat-decoration"></div>
 						<div class="mb-6">
 							<h3 class="text-2xl font-bold mb-2" style="color: var(--main-text)">Лига 1</h3>
 							<p class="text-sm" style="color: var(--main-subtext)">0-3 месяца</p>
@@ -2063,31 +2221,7 @@
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block; flex: 1"
 								>
-									Лащенова Александра
-									<div
-										class="text-sm"
-										style="
-											color: var(--main-accent);
-											margin-top: 2px;
-											display: flex;
-											justify-content: space-between;
-											align-items: center;
-										"
-									>
-										<span>1000 баллов</span>
-										<span class="text-lg font-bold" style="color: var(--main-accent)">87%</span>
-									</div>
-								</span>
-							</div>
-							<div
-								class="flex justify-between items-center py-3 px-4 rounded-lg"
-								style="background: #eaf2ff"
-							>
-								<span class="apple-badge mr-2" style="background: #d9ead3; color: #222a36">Топ 2</span>
-								<span
-									class="font-medium"
-									style="color: var(--main-text); white-space: nowrap; display: block; flex: 1"
-									>Расюкевич Андрей
+									Мелконян Сарибек
 									<div
 										class="text-sm"
 										style="
@@ -2099,7 +2233,31 @@
 										"
 									>
 										<span>500 баллов</span>
-										<span class="text-lg font-bold" style="color: var(--main-accent)">54%</span>
+										<span class="text-lg font-bold" style="color: var(--main-accent)">61%</span>
+									</div>
+								</span>
+							</div>
+							<div
+								class="flex justify-between items-center py-3 px-4 rounded-lg"
+								style="background: #eaf2ff"
+							>
+								<span class="apple-badge mr-2" style="background: #d9ead3; color: #222a36">Топ 2</span>
+								<span
+									class="font-medium"
+									style="color: var(--main-text); white-space: nowrap; display: block; flex: 1"
+									>Тарарин Станислав
+									<div
+										class="text-sm"
+										style="
+											color: var(--main-accent);
+											margin-top: 2px;
+											display: flex;
+											justify-content: space-between;
+											align-items: center;
+										"
+									>
+										<span>500 баллов</span>
+										<span class="text-lg font-bold" style="color: var(--main-accent)">39%</span>
 									</div>
 								</span>
 							</div>
@@ -2111,7 +2269,7 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block; flex: 1"
-									>Денщикова Анастасия
+									>Диденко Иван
 									<div
 										class="text-sm"
 										style="
@@ -2122,8 +2280,8 @@
 											align-items: center;
 										"
 									>
-										<span>200 баллов</span>
-										<span class="text-lg font-bold" style="color: var(--main-accent)">83%</span>
+										<span>500 баллов</span>
+										<span class="text-lg font-bold" style="color: var(--main-accent)">33%</span>
 									</div>
 								</span>
 							</div>
@@ -2146,7 +2304,7 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block; flex: 1"
-									>Сурова Виктория
+									>Ткаченко Дмитрий
 									<div
 										class="text-sm"
 										style="
@@ -2157,12 +2315,12 @@
 											align-items: center;
 										"
 									>
-										<span>1000 баллов</span>
-										<span class="text-lg font-bold" style="color: var(--main-accent)">63%</span>
+										<span>500 баллов</span>
+										<span class="text-lg font-bold" style="color: var(--main-accent)">22%</span>
 									</div>
 								</span>
 							</div>
-							
+
 							<div
 								class="flex justify-between items-center py-3 px-4 rounded-lg"
 								style="background: #eaf2ff"
@@ -2171,7 +2329,7 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block; flex: 1"
-									>Чекменева Элина
+									>Ивахненко Александра
 									<div
 										class="text-sm"
 										style="
@@ -2182,8 +2340,8 @@
 											align-items: center;
 										"
 									>
-										<span>1000 баллов</span>
-										<span class="text-lg font-bold" style="color: var(--main-accent)">9%</span>
+										<span>500 баллов</span>
+										<span class="text-lg font-bold" style="color: var(--main-accent)">16%</span>
 									</div></span
 								>
 							</div>
@@ -2195,7 +2353,7 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block; flex: 1"
-									>Фадеева Ольга
+									>Рева Надежда
 									<div
 										class="text-sm"
 										style="
@@ -2206,8 +2364,8 @@
 											align-items: center;
 										"
 									>
-										<span>200 баллов</span>
-										<span class="text-lg font-bold" style="color: var(--main-accent)">90%</span>
+										<span>500 баллов</span>
+										<span class="text-lg font-bold" style="color: var(--main-accent)">16%</span>
 									</div>
 								</span>
 							</div>
@@ -2215,7 +2373,8 @@
 					</div>
 
 					<!--⁡⁣⁢⁣ЛИГА 3⁡-->
-					<div class="apple-card p-8 text-center" style="background: #cfe2f3">
+					<div class="apple-card p-8 text-center" style="background: #cfe2f3; position: relative;">
+						<div class="snowman-decoration"></div>
 						<div class="mb-6">
 							<h3 class="text-2xl font-bold mb-2" style="color: var(--main-text)">Лига 3</h3>
 							<p class="text-sm" style="color: var(--main-subtext)">6+ месяцев</p>
@@ -2230,7 +2389,7 @@
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block; flex: 1"
 								>
-									Иванова Елена
+									Капуста Лариса
 									<div
 										class="text-sm"
 										style="
@@ -2241,8 +2400,8 @@
 											align-items: center;
 										"
 									>
-										<span>3000 баллов</span>
-										<span class="text-lg font-bold" style="color: var(--main-accent)">93%</span>
+										<span>4000 баллов</span>
+										<span class="text-lg font-bold" style="color: var(--main-accent)">84%</span>
 									</div>
 								</div>
 							</div>
@@ -2266,8 +2425,8 @@
 											align-items: center;
 										"
 									>
-										<span>3000 баллов</span>
-										<span class="text-lg font-bold" style="color: var(--main-accent)">93%</span>
+										<span>2500 баллов</span>
+										<span class="text-lg font-bold" style="color: var(--main-accent)">74%</span>
 									</div>
 								</div>
 							</div>
@@ -2279,7 +2438,7 @@
 								<span
 									class="font-medium"
 									style="color: var(--main-text); white-space: nowrap; display: block; flex: 1"
-									>Журавлев Валерий
+									>Иванова Елена
 									<div
 										class="text-sm"
 										style="
@@ -2291,7 +2450,7 @@
 										"
 									>
 										<span>1500 баллов</span>
-										<span class="text-lg font-bold" style="color: var(--main-accent)">72%</span>
+										<span class="text-lg font-bold" style="color: var(--main-accent)">75%</span>
 									</div></span
 								>
 							</div>
@@ -7326,6 +7485,233 @@ Image-2025-08-31-at-18-20-46.jpg"
 				if (frame1) frame1.src = sheetUrl1;
 				if (frame2) frame2.src = sheetUrl2;
 				if (link1) link1.href = sheetUrl1;
+			});
+		</script>
+
+		<!-- Новогодние эффекты JavaScript -->
+		<script>
+			// Создание снегопада
+			function createSnowfall() {
+				const snowfall = document.getElementById('snowfall');
+
+				function createSnowflake() {
+					const snowflake = document.createElement('div');
+					snowflake.className = 'snowflake';
+
+					// Случайные параметры для CSS снежинок
+					const size = Math.random() * 6 + 4; // от 4px до 10px
+					const startPosition = Math.random() * (window.innerWidth + 100) - 50;
+					const animationDuration = Math.random() * 4 + 4; // от 4 до 8 секунд
+					const opacity = Math.random() * 0.4 + 0.6; // от 0.6 до 1.0
+
+					snowflake.style.left = startPosition + 'px';
+					snowflake.style.width = size + 'px';
+					snowflake.style.height = size + 'px';
+					snowflake.style.animationDuration = animationDuration + 's';
+					snowflake.style.opacity = opacity;
+
+					snowfall.appendChild(snowflake);
+
+					// Удаляем снежинку после анимации
+					setTimeout(() => {
+						if (snowflake.parentNode) {
+							snowflake.parentNode.removeChild(snowflake);
+						}
+					}, animationDuration * 1000);
+				}
+
+				// Создаем снежинки с более частым интервалом
+				setInterval(createSnowflake, 80);
+
+				// Дополнительный поток крупных снежинок
+				setInterval(() => {
+					if (Math.random() < 0.3) {
+						const bigSnowflake = document.createElement('div');
+						bigSnowflake.className = 'snowflake';
+						const bigSize = Math.random() * 8 + 12; // от 12px до 20px
+						bigSnowflake.style.width = bigSize + 'px';
+						bigSnowflake.style.height = bigSize + 'px';
+						bigSnowflake.style.left = Math.random() * window.innerWidth + 'px';
+						bigSnowflake.style.animationDuration = Math.random() * 3 + 6 + 's';
+						bigSnowflake.style.opacity = Math.random() * 0.3 + 0.7;
+						snowfall.appendChild(bigSnowflake);
+
+						setTimeout(() => {
+							if (bigSnowflake.parentNode) {
+								bigSnowflake.parentNode.removeChild(bigSnowflake);
+							}
+						}, 9000);
+					}
+				}, 300);
+			}
+
+
+
+			// Создание волшебных снежинок вокруг элемента
+			function createMagicSnowflake(element) {
+				const rect = element.getBoundingClientRect();
+				const snowflake = document.createElement('div');
+				snowflake.style.position = 'fixed';
+				snowflake.style.left = rect.left + Math.random() * rect.width + 'px';
+				snowflake.style.top = rect.top + Math.random() * rect.height + 'px';
+				snowflake.style.width = '6px';
+				snowflake.style.height = '6px';
+				snowflake.style.background = '#fff';
+				snowflake.style.borderRadius = '50%';
+				snowflake.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.8)';
+				snowflake.style.pointerEvents = 'none';
+				snowflake.style.zIndex = '10000';
+				snowflake.style.animation = 'fall 2s ease-out forwards';
+
+				document.body.appendChild(snowflake);
+
+				setTimeout(() => {
+					if (snowflake.parentNode) {
+						snowflake.parentNode.removeChild(snowflake);
+					}
+				}, 2000);
+			}
+
+			// Новогоднее поздравление
+			function showNewYearMessage() {
+				const messages = [
+					'🎉 С Новым Годом! 🎉',
+					'✨ Пусть мечты сбываются! ✨',
+					'🎁 Волшебного Нового Года! 🎁',
+					'🎄 Счастья и радости! 🎄',
+					'⭐ Пусть год будет удачным! ⭐',
+					'🔔 Новогодних чудес! 🔔',
+				];
+
+				const message = messages[Math.floor(Math.random() * messages.length)];
+
+				// Создаем временное сообщение
+				const messageEl = document.createElement('div');
+				messageEl.innerHTML = message;
+				messageEl.style.position = 'fixed';
+				messageEl.style.top = '50%';
+				messageEl.style.left = '50%';
+				messageEl.style.transform = 'translate(-50%, -50%)';
+				messageEl.style.background = 'rgba(0, 122, 255, 0.95)';
+				messageEl.style.color = 'white';
+				messageEl.style.padding = '20px 30px';
+				messageEl.style.borderRadius = '15px';
+				messageEl.style.fontSize = '24px';
+				messageEl.style.fontWeight = '600';
+				messageEl.style.zIndex = '10001';
+				messageEl.style.animation = 'fadeInOut 3s ease-in-out';
+				messageEl.style.textAlign = 'center';
+				messageEl.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+
+				document.body.appendChild(messageEl);
+
+				// Добавляем стиль анимации если его нет
+				if (!document.querySelector('#fadeInOutStyle')) {
+					const style = document.createElement('style');
+					style.id = 'fadeInOutStyle';
+					style.textContent = `
+						@keyframes fadeInOut {
+							0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+							20%, 80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+							100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+						}
+					`;
+					document.head.appendChild(style);
+				}
+
+				// Создаем фейерверк из снежинок
+				for (let i = 0; i < 20; i++) {
+					setTimeout(() => {
+						createFireworkSnowflake();
+					}, i * 100);
+				}
+
+				setTimeout(() => {
+					if (messageEl.parentNode) {
+						messageEl.parentNode.removeChild(messageEl);
+					}
+				}, 3000);
+			}
+
+			// Создание фейерверка из снежинок
+			function createFireworkSnowflake() {
+				const snowflake = document.createElement('div');
+				snowflake.style.position = 'fixed';
+				snowflake.style.left = '50%';
+				snowflake.style.top = '50%';
+				snowflake.style.width = '8px';
+				snowflake.style.height = '8px';
+				snowflake.style.background = '#fff';
+				snowflake.style.borderRadius = '50%';
+				snowflake.style.boxShadow = '0 0 15px rgba(255, 255, 255, 0.9)';
+				snowflake.style.pointerEvents = 'none';
+				snowflake.style.zIndex = '10000';
+
+				// Случайное направление
+				const angle = Math.random() * Math.PI * 2;
+				const velocity = Math.random() * 200 + 100;
+				const deltaX = Math.cos(angle) * velocity;
+				const deltaY = Math.sin(angle) * velocity;
+
+				snowflake.style.animation = `firework 2s ease-out forwards`;
+				snowflake.style.setProperty('--deltaX', deltaX + 'px');
+				snowflake.style.setProperty('--deltaY', deltaY + 'px');
+
+				// Добавляем стиль для фейерверка
+				if (!document.querySelector('#fireworkStyle')) {
+					const style = document.createElement('style');
+					style.id = 'fireworkStyle';
+					style.textContent = `
+						@keyframes firework {
+							0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+							100% { transform: translate(calc(-50% + var(--deltaX)), calc(-50% + var(--deltaY))) scale(0); opacity: 0; }
+						}
+					`;
+					document.head.appendChild(style);
+				}
+
+				document.body.appendChild(snowflake);
+
+				setTimeout(() => {
+					if (snowflake.parentNode) {
+						snowflake.parentNode.removeChild(snowflake);
+					}
+				}, 2000);
+			}
+
+
+
+			// Инициализация новогодних эффектов
+			document.addEventListener('DOMContentLoaded', function () {
+				// Запускаем снегопад
+				createSnowfall();
+
+				// (Автопоздравление отключено — интерактивный подарок удалён)
+			});
+
+			// Добавляем снежинки при скролле
+			let scrollTimeout;
+			window.addEventListener('scroll', () => {
+				clearTimeout(scrollTimeout);
+				scrollTimeout = setTimeout(() => {
+					for (let i = 0; i < 5; i++) {
+						setTimeout(() => {
+							const scrollSnow = document.createElement('div');
+							scrollSnow.className = 'snowflake';
+							scrollSnow.style.left = Math.random() * window.innerWidth + 'px';
+							scrollSnow.style.width = '6px';
+							scrollSnow.style.height = '6px';
+							scrollSnow.style.animationDuration = '2s';
+							document.getElementById('snowfall').appendChild(scrollSnow);
+
+							setTimeout(() => {
+								if (scrollSnow.parentNode) {
+									scrollSnow.parentNode.removeChild(scrollSnow);
+								}
+							}, 2000);
+						}, i * 200);
+					}
+				}, 100);
 			});
 		</script>
 	</body>
