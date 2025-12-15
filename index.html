@@ -718,40 +718,45 @@
 			/* Угловые гирлянды */
 			.corner-garland-left {
 				position: fixed;
-				top: 0;
-				left: 0;
-				width: 300px;
-				height: 200px;
+				top: -20px;
+				left: -20px;
+				width: 450px;
+				height: 300px;
 				background: url('https://i.postimg.cc/V6HSnTDL/Girlanda-levyi-ugol.png') no-repeat center;
 				background-size: contain;
 				z-index: 1000;
 				pointer-events: none;
+				filter: brightness(1.2) saturate(1.4);
+				opacity: 0.95;
 			}
 
 			.corner-garland-right {
 				position: fixed;
-				top: 0;
-				right: 0;
-				width: 300px;
-				height: 200px;
+				top: -20px;
+				right: -20px;
+				width: 450px;
+				height: 300px;
 				background: url('https://i.postimg.cc/rsrpWpdL/Girlanda-pravyi-ugol.png') no-repeat center;
 				background-size: contain;
 				z-index: 1000;
 				pointer-events: none;
+				filter: brightness(1.2) saturate(1.4);
+				opacity: 0.95;
 			}
 
 			/* Хвоя над методологией */
 			.methodology-garland {
 				position: absolute;
-				top: -30px;
+				top: -40px;
 				left: 50%;
 				transform: translateX(-50%);
-				width: 520px;
-				height: 80px;
+				width: 650px;
+				height: 110px;
 				background: url('хвоя над методологией.png') no-repeat center;
 				background-size: contain;
 				z-index: 10;
 				pointer-events: none;
+				filter: brightness(1.15) saturate(1.3) contrast(1.1);
 			}
 
 			/* Сугробы под навигационными элементами */
@@ -813,9 +818,7 @@
 				background: #fff;
 				border-radius: 50%;
 				animation: fall linear infinite;
-				box-shadow:
-					0 0 10px rgba(255, 255, 255, 0.8),
-					0 0 20px rgba(255, 255, 255, 0.6),
+				box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6),
 					0 0 30px rgba(200, 230, 255, 0.4);
 				opacity: 0.9;
 			}
@@ -831,12 +834,39 @@
 				}
 			}
 
+			/* Салют с логотипа */
+			.logo-firework {
+				position: fixed;
+				width: 12px;
+				height: 12px;
+				border-radius: 50%;
+				pointer-events: none;
+				z-index: 9999;
+				animation: firework-fly 1.5s ease-out forwards;
+				box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+			}
 
+			@keyframes firework-fly {
+				0% {
+					transform: translate(0, 0) scale(1);
+					opacity: 1;
+				}
+				100% {
+					transform: translate(var(--tx), var(--ty)) scale(0.3);
+					opacity: 0;
+				}
+			}
 
+			.logo-container {
+				position: relative;
+				display: inline-block;
+				cursor: pointer;
+				transition: transform 0.1s;
+			}
 
-
-
-
+			.logo-container:active {
+				transform: scale(0.95);
+			}
 		</style>
 	</head>
 
@@ -848,6 +878,36 @@
 
 		<!-- Скрипт проверки авторизации -->
 		<script>
+			// Салют с логотипа
+			function createFireworks(event) {
+				const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ff8800', '#ff0088'];
+				const particleCount = 25;
+				const rect = event.currentTarget.getBoundingClientRect();
+				const centerX = rect.left + rect.width / 2;
+				const centerY = rect.top + rect.height / 2;
+
+				for (let i = 0; i < particleCount; i++) {
+					const firework = document.createElement('div');
+					firework.className = 'logo-firework';
+					firework.style.left = centerX + 'px';
+					firework.style.top = centerY + 'px';
+					firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+					const angle = (Math.PI * 2 * i) / particleCount;
+					const velocity = 100 + Math.random() * 100;
+					const tx = Math.cos(angle) * velocity;
+					const ty = Math.sin(angle) * velocity;
+
+					firework.style.setProperty('--tx', tx + 'px');
+					firework.style.setProperty('--ty', ty + 'px');
+
+					document.body.appendChild(firework);
+
+					setTimeout(() => firework.remove(), 1500);
+				}
+			}
+
+			// Скрипт проверки авторизации
 			// Защита от копирования контента
 			document.addEventListener('DOMContentLoaded', function () {
 				// Отключаем контекстное меню
@@ -1180,14 +1240,13 @@
 		>
 			<div class="max-w-6xl mx-auto px-6 py-4">
 				<div class="flex justify-between items-center nav-container">
-					<div class="flex items-center">
-				<img
-					src="https://i.postimg.cc/zGjfVHdx/image.png"
-					alt="Rewards Hub Logo"
-					class="h-20 transition-all duration-300 ease-in-out transform hover:scale-110 hover:brightness-105 hover:drop-shadow-md"
-				/>
-
-					<!-- Центральные кнопки навигации -->
+					<div class="flex items-center logo-container" onclick="createFireworks(event)">
+						<img
+							src="https://i.postimg.cc/xCJHM3DW/Bez-fona.png"
+							alt="Rewards Hub Logo"
+							class="h-20 transition-all duration-300 ease-in-out transform hover:scale-110 hover:brightness-105 hover:drop-shadow-md"
+						/>
+					</div>
 					<div class="flex space-x-4 nav-links" aria-label="Основная навигация">
 						<a
 							href="#leaders"
@@ -1553,7 +1612,7 @@
 		<div class="section-divider"></div>
 
 		<div class="w-full mx-auto">
-			<div class="text-center mb-12" style="position: relative;">
+			<div class="text-center mb-12" style="position: relative">
 				<div class="methodology-garland"></div>
 				<button onclick="openMethodology()" class="sheet-btn apple-button">
 					📊 Методология расчета и правила начисления баллов
@@ -2205,7 +2264,7 @@
 
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-12 leaders-grid">
 					<!-- ⁡⁣⁢⁣ЛИГА 1⁡ -->
-					<div class="apple-card p-8 text-center" style="background: #d9ead3; position: relative;">
+					<div class="apple-card p-8 text-center" style="background: #d9ead3; position: relative">
 						<div class="santa-hat-decoration"></div>
 						<div class="mb-6">
 							<h3 class="text-2xl font-bold mb-2" style="color: var(--main-text)">Лига 1</h3>
@@ -2373,7 +2432,7 @@
 					</div>
 
 					<!--⁡⁣⁢⁣ЛИГА 3⁡-->
-					<div class="apple-card p-8 text-center" style="background: #cfe2f3; position: relative;">
+					<div class="apple-card p-8 text-center" style="background: #cfe2f3; position: relative">
 						<div class="snowman-decoration"></div>
 						<div class="mb-6">
 							<h3 class="text-2xl font-bold mb-2" style="color: var(--main-text)">Лига 3</h3>
@@ -7545,8 +7604,6 @@ Image-2025-08-31-at-18-20-46.jpg"
 				}, 300);
 			}
 
-
-
 			// Создание волшебных снежинок вокруг элемента
 			function createMagicSnowflake(element) {
 				const rect = element.getBoundingClientRect();
@@ -7678,8 +7735,6 @@ Image-2025-08-31-at-18-20-46.jpg"
 					}
 				}, 2000);
 			}
-
-
 
 			// Инициализация новогодних эффектов
 			document.addEventListener('DOMContentLoaded', function () {
